@@ -1,0 +1,10 @@
+
+        <div class="loader " *ngIf="!onboardingInsight">
+            <div class="spinner-border mr-50" style="width: 3rem; height: 3rem" role="status">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <app-customers-order-statistics [indicator]="'C'"></app-customers-order-statistics>
+            </div>
+        </div>

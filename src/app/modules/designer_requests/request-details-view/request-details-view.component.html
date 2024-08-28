@@ -1,0 +1,267 @@
+<div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+        <app-content-header [contentHeader]="contentHeader"></app-content-header>
+        <section class="vertical-wizard">
+            <div class="bs-stepper vertical vertical-wizard-example" id="stepper2">
+                <!-- TABS -->
+                <div class="bs-stepper-header pl">
+                    <!-- FREELANCER DETAILS TAB -->
+                    <div class="step" data-target="#account-details-vertical">
+                        <button class="step-trigger" type="button">
+                            <span class="bs-stepper-box">1</span>
+                            <span class="bs-stepper-label">
+                <span class="bs-stepper-title">Designer Details</span>
+                <span class="bs-stepper-subtitle"
+                >Designer-ID: <br/>{{ freelancer?._id }}</span
+                >
+              </span>
+                        </button>
+                    </div>
+                    <!-- SKILLS TAB -->
+                    <div class="step" data-target="#address-step-vertical">
+                        <button class="step-trigger" type="button">
+                            <span class="bs-stepper-box">2</span>
+                            <span class="bs-stepper-label">
+                <span class="bs-stepper-title">Skills</span>
+              </span>
+                        </button>
+                    </div>
+                </div>
+                <!-- TABS CONTENT -->
+                <div class="bs-stepper-content">
+                    <!-- FREELANCER DETAILS TAB CONTENT -->
+                    <div class="content" id="account-details-vertical">
+                        <div class="content-header">
+                            <h5 class="mb-0 font-weight-bold">
+                                Designer Details
+
+                                <small *ngIf="freelancer?.isProfileVerified">
+                                    <i class="green icon02em" data-feather="shield"></i>Verified
+                                    Profile
+                                </small>
+                            </h5>
+
+                            <small class="text-muted">
+                                Joining Date:
+                                {{ freelancer?.createdAt | date: "dd MMM yyyy" }}
+                            </small>
+
+                            <br/>
+                            <ngb-rating
+                                    [max]="5"
+                                    [rate]="freelancer?.rating"
+                                    [readonly]="true"
+                                    class="green"
+                            ></ngb-rating>
+                        </div>
+                        <div class="row">
+                            <!-- FREELANCER DEATAILS SECTION -->
+                            <div class="form-group col-md-6">
+                                <div class="row">
+                                    <!-- FREELANCER FULLNAME -->
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-address"
+                                        >Full Name</label
+                                        >
+                                        <input
+                                                class="form-control"
+                                                disabled
+                                                type="text"
+                                                value="{{ freelancer?.fullName }}"
+                                        />
+                                    </div>
+                                    <!-- FREELANCER ID -->
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-address"
+                                        >Email</label
+                                        >
+                                        <input
+                                                class="form-control"
+                                                disabled
+                                                type="text"
+                                                value="{{ freelancer?.email }}"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- FREELANCER PHONE NUMBER -->
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-landmark"
+                                        >Phone Number</label
+                                        >
+                                        <input
+                                                class="form-control"
+                                                disabled
+                                                type="text"
+                                                value="{{ freelancer?.phone }}"
+                                        />
+                                    </div>
+                                    <!-- FREELANCER CITY -->
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-landmark"
+                                        >City</label
+                                        >
+                                        <input
+                                                class="form-control"
+                                                disabled
+                                                type="text"
+                                                value="{{ freelancer?.city }}"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- FREELANCER ADDRESS -->
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-landmark"
+                                        >Address</label
+                                        >
+                                        <input
+                                                class="form-control"
+                                                disabled
+                                                type="text"
+                                                value="{{ freelancer?.address }}"
+                                        />
+                                    </div>
+                                    <!-- FREELANCER COUNTRY -->
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-landmark"
+                                        >Country</label
+                                        >
+                                        <input
+                                                class="form-control"
+                                                disabled
+                                                type="text"
+                                                value="{{ freelancer?.country }}"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- FREELANCER HEARD FROM -->
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-landmark"
+                                        >Heard From</label
+                                        >
+                                        <input
+                                                class="form-control"
+                                                disabled
+                                                type="text"
+                                                value="{{ freelancer?.heardFrom }}"
+                                        />
+                                    </div>
+                                    <!-- FREELANCER COUNTRY -->
+                                    <div class="form-group col-md-6"></div>
+                                </div>
+                                <div class="row">
+                                    <!-- FREELANCER ABOUT ME -->
+                                    <div class="form-group col-md-12">
+                                        <label class="form-label" for="vertical-landmark"
+                                        >About Me:</label
+                                        >
+                                        <p>
+                                            {{ freelancer?.aboutMe }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FREELANCER PROFILE PICTURE SECTION-->
+
+                        </div>
+                        <!-- FREELANCER DETAILS BACK TO LISTING BUTTON-->
+                        <div class="d-flex ">
+                            <button
+                                    (click)="backLink()"
+                                    class="btn btn-outline-secondary btn-prev"
+                                    rippleEffect
+                            >
+                                <i
+                                        class="align-middle mr-sm-25 mr-0"
+                                        data-feather="arrow-left"
+                                ></i>
+                                <span class="align-middle d-sm-inline-block"
+                                >Back To Listing</span
+                                >
+                            </button>
+
+
+                            <div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="content" id="address-step-vertical">
+                        <div class="content-header">
+                            <h5 class="mb-0 font-weight-bold">{{ freelancer?.fullName }} Skills</h5>
+                        </div>
+                        <div class="row">
+                            <div *ngFor="let skill of freelancerSkills" class="skillDiv">
+                                <i class="skills"
+                                >{{ skill.name
+                                    }}<span
+                                    ><i class="x-circle" data-feather="x-circle"></i></span
+                                    ></i>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="newSkillDiv">
+                                    <h5>Add New Skills</h5>
+                                    <ul class="list-group list-group-flush">
+                                        <li *ngFor="let item of $any(selectedRequest)?.addedSkills"
+                                            class="list-group-item">{{item.name}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="newSkillDiv">
+                                    <h5>Remove Skills</h5>
+                                    <ul class="list-group list-group-flush">
+                                        <li *ngFor="let item of $any(selectedRequest)?.removedSkills"
+                                            class="list-group-item">{{item.name}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="d-flex justify-content-between">
+                            <button
+                                    (click)="backLink()"
+                                    class="btn btn-outline-secondary btn-prev"
+                                    rippleEffect
+                            >
+                                <i
+                                        class="align-middle mr-sm-25 mr-0"
+                                        data-feather="arrow-left"
+                                ></i>
+                                <span class="align-middle d-sm-inline-block"
+                                >Back To Listing</span
+                                >
+                            </button>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button
+                                    class="btn btn-danger btn-prev"
+                                    rippleEffect
+                                    (click)="rejectRequest()"
+                                    style="float: right"
+                            >
+                                Disapprove Request
+                            </button>
+                            <button
+                                    class="btn  btn-primary btn-prev ml-2"
+                                    rippleEffect
+                                    (click)="approveRequest()"
+                                    style="float: right"
+                            >
+                                Approve Request
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+

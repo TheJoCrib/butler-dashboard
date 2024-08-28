@@ -1,0 +1,735 @@
+<div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+        <app-content-header [contentHeader]="contentHeader"></app-content-header>
+        <section class="vertical-wizard">
+            <div id="stepper2" class="bs-stepper vertical vertical-wizard-example">
+                <!-- TABS -->
+                <div class="bs-stepper-header pl">
+                    <!-- FREELANCER DETAILS TAB -->
+                    <div class="step" data-target="#account-details-vertical">
+                        <button type="button" class="step-trigger">
+                            <span class="bs-stepper-box">1</span>
+                            <span class="bs-stepper-label">
+                <span class="bs-stepper-title">Designer Details</span>
+                <span class="bs-stepper-subtitle"
+                >Designer-ID: <br/>{{ freelancer?._id }}</span
+                >
+              </span>
+                        </button>
+                    </div>
+                    <!-- JOBS TAB -->
+                    <div
+                            class="step"
+                            (click)="handleTabChange('jobs')"
+                            data-target="#personal-info-vertical"
+                    >
+                        <button type="button" class="step-trigger">
+                            <span class="bs-stepper-box">2</span>
+                            <span class="bs-stepper-label">
+                <span class="bs-stepper-title">Jobs</span>
+              </span>
+                        </button>
+                    </div>
+                    <!-- Payments -->
+                    <div
+                            class="step"
+                            (click)="handleTabChange('payments')"
+                            data-target="#payment-info"
+                    >
+                        <button type="button" class="step-trigger">
+                            <span class="bs-stepper-box">3</span>
+                            <span class="bs-stepper-label">
+                <span class="bs-stepper-title">Payments</span>
+              </span>
+                        </button>
+                    </div>
+                    <!-- SKILLS TAB -->
+                    <div class="step" data-target="#address-step-vertical">
+                        <button type="button" class="step-trigger">
+                            <span class="bs-stepper-box">3</span>
+                            <span class="bs-stepper-label">
+                <span class="bs-stepper-title">Skills</span>
+              </span>
+                        </button>
+                    </div>
+                    <!-- PROFILE TAB -->
+                    <div class="step" data-target="#social-links-vertical">
+                        <button type="button" class="step-trigger">
+                            <span class="bs-stepper-box">4</span>
+                            <span class="bs-stepper-label">
+                <span class="bs-stepper-title">Profile</span>
+                <span class="bs-stepper-subtitle">Documents</span>
+              </span>
+                        </button>
+                    </div>
+                </div>
+                <!-- TABS CONTENT -->
+                <div class="bs-stepper-content">
+                    <!-- FREELANCER DETAILS TAB CONTENT -->
+                    <div id="account-details-vertical" class="content">
+                        <div class="content-header">
+                            <h5 class="mb-0">
+                                Designer Details
+
+                                <small *ngIf="freelancer?.isProfileVerified">
+                                    <i class="green icon02em" data-feather="shield"></i>Verified
+                                    Profile
+                                </small>
+                                <small *ngIf="freelancer?.isBanned">
+                                    <i class="red icon02em" data-feather="shield-off"></i>Banned
+                                    User
+                                </small>
+                            </h5>
+                            <button
+                                    *ngIf="!freelancer?.isProfileVerified"
+                                    (click)="toggleProfile(freelancer)"
+                                    style="float: right"
+                                    class="btn btn-outline-secondary btn-prev"
+                                    rippleEffect
+                            >
+                                <!-- <i class="align-middle mr-sm-25 mr-0"></i> -->
+                                <span class="green"
+                                >Verify<i class="green" data-feather="check"></i
+                                ></span>
+                            </button>
+                            <button
+                                    *ngIf="freelancer?.isProfileVerified"
+                                    (click)="toggleProfile(freelancer)"
+                                    style="float: right"
+                                    class="btn btn-outline-secondary btn-prev"
+                                    rippleEffect
+                            >
+                                <!-- <i class="align-middle mr-sm-25 mr-0"></i> -->
+                                <span class="red">Disprove</span>
+                            </button>
+                            <small class="text-muted">
+                                Joining Date:
+                                {{ freelancer?.createdAt | date: "dd MMM yyyy" }}
+                            </small>
+
+                            <br/>
+                            <ngb-rating
+                                    class="green"
+                                    [readonly]="true"
+                                    [max]="5"
+                                    [rate]="freelancer?.rating"
+                            ></ngb-rating>
+                        </div>
+                        <div class="row">
+                            <!-- FREELANCER DEATAILS SECTION -->
+                            <div class="form-group col-md-6">
+                                <div class="row">
+                                    <!-- FREELANCER FULLNAME -->
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-address"
+                                        >Full Name</label
+                                        >
+                                        <input
+                                                type="text"
+                                                disabled
+                                                value="{{ freelancer?.fullName }}"
+                                                class="form-control"
+                                        />
+                                    </div>
+                                    <!-- FREELANCER ID -->
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-address"
+                                        >Email</label
+                                        >
+                                        <input
+                                                (blur)="changeHandler($event,'email')"
+                                                type="text"
+                                                value="{{ freelancer?.email }}"
+                                                class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- FREELANCER PHONE NUMBER -->
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-landmark"
+                                        >Phone Number</label
+                                        >
+                                        <input
+                                                type="text"
+                                                value="{{ freelancer?.phone }}"
+                                                class="form-control"
+                                                (blur)="changeHandler($event,'phone')"
+                                        />
+                                    </div>
+                                    <!-- FREELANCER CITY -->
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-landmark"
+                                        >City</label
+                                        >
+                                        <input
+                                                type="text"
+                                                disabled
+                                                value="{{ freelancer?.city }}"
+                                                class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- FREELANCER ADDRESS -->
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-landmark"
+                                        >Address</label
+                                        >
+                                        <input
+                                                type="text"
+                                                disabled
+                                                value="{{ freelancer?.address }}"
+                                                class="form-control"
+                                        />
+                                    </div>
+                                    <!-- FREELANCER COUNTRY -->
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-landmark"
+                                        >Country</label
+                                        >
+                                        <input
+                                                type="text"
+                                                disabled
+                                                value="{{ freelancer?.country }}"
+                                                class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- FREELANCER HEARD FROM -->
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-landmark"
+                                        >Heard From</label
+                                        >
+                                        <input
+                                                type="text"
+                                                disabled
+                                                value="{{ freelancer?.heardFrom }}"
+                                                class="form-control"
+                                        />
+                                    </div>
+                                    <!-- FREELANCER COUNTRY -->
+                                    <div class="form-group col-md-6"></div>
+                                </div>
+                                <div class="row">
+                                    <!-- FREELANCER ABOUT ME -->
+                                    <div class="form-group col-md-12">
+                                        <label class="form-label" for="vertical-landmark"
+                                        >About Me:</label
+                                        >
+                                        <p>
+                                            {{ freelancer?.aboutMe }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FREELANCER PROFILE PICTURE SECTION-->
+                            <div class="form-group col-md-6">
+                                <div class="freelancer-profile-container">
+                                    <div
+                                            (click)="openImageModal(modalSM, freelancer?.profileImage)"
+                                            class="profile-pic"
+                                            [ngStyle]="{
+                      'background-image':
+                        'url(' + freelancer?.profileImage + ')'
+                    }"
+                                    ></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- FREELANCER DETAILS BACK TO LISTING BUTTON-->
+                        <div class="d-flex ">
+                            <button
+                                    (click)="backLink()"
+                                    class="btn btn-outline-secondary btn-prev"
+                                    rippleEffect
+                            >
+                                <i
+                                        data-feather="arrow-left"
+                                        class="align-middle mr-sm-25 mr-0"
+                                ></i>
+                                <span class="align-middle d-sm-inline-block"
+                                >Back To Listing</span
+                                >
+                            </button>
+
+                            <button
+                                    (click)="updateFreelancer()"
+                                    class="btn btn-outline-success btn-prev ml-3"
+                                    rippleEffect
+                            >
+                                <i data-feather="check"
+                                   class="align-middle mr-sm-25 mr-0"
+                                ></i>
+                                <span class="align-middle d-sm-inline-block"
+                                >Update Designer</span
+                                >
+                            </button>
+
+                            <div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- JOBS TAB CONTENT -->
+                    <div id="personal-info-vertical" class="content">
+                        <div class="row">
+                            <div class="content-header jobs-detail">
+                                <h5 class="mb-0">{{ freelancer?.fullName }} Jobs Detail</h5>
+                            </div>
+                            <div class="show-records">
+                                <label class="d-flex align-items-center">
+                                    Show
+                                    <select
+                                            class="form-control mx-25"
+                                            (change)="handlePageLimit('jobs')"
+                                            [(ngModel)]="pageSize"
+                                    >
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                    records
+                                </label>
+                            </div>
+                        </div>
+                        <!-- DATATABLE OF JOBS START -->
+                        <div class="row"></div>
+                        <section id="ngx-datatable-row-details">
+                            <ngx-datatable
+                                #tableRowDetails
+                                class="bootstrap core-bootstrap"
+                                [columnMode]="ColumnMode.force"
+                                [headerHeight]="40"
+                                [footerHeight]="50"
+                                [rowHeight]="'auto'"
+                                [limit]="pageSize"
+                                [rows]="jobs"
+                                [scrollbarH]="true"
+                                [externalPaging]="true"
+                                [count]="totalJobs"
+                                [offset]="offset"
+                                (page)="setPage($event,'jobs')"
+                            >
+                                <!-- TITLE COLUMN -->
+                                <ngx-datatable-column name="TITLE" [width]="120">
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <div class="d-flex align-items-center">
+                                            <div>
+                                                <div>
+                                                    {{ row?.title }}
+                                                </div>
+                                                <div class="font-small-2 text-muted">
+                                                    {{ row?.description }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <!-- CLIENT NAME COLUMN -->
+                                <ngx-datatable-column name="Client" [width]="120">
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <div class="d-flex align-items-center">
+                                            <div>
+                                                <div>
+                                                    {{ row?.client.name }}
+                                                </div>
+                                                <div class="font-small-2 text-muted">
+                                                    {{ row?.client.email }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <!-- ENDED AT COLUMN -->
+                                <ngx-datatable-column name="Ended At" [width]="120">
+                                    <ng-template
+                                        let-row="row"
+                                        let-name="value"
+                                        ngx-datatable-cell-template
+                                    >
+                                        <div class="d-flex align-items-center">
+                                            <!-- <div class="cell-line-height">
+                                              <p class="font-medium-1 line-height-1 mb-0"> -->
+                                            {{ row?.endDate | date: "dd MMM yyyy" }}
+                                            <!-- </p>
+                                            </div> -->
+                                        </div>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column
+                                        name="Actual Job Price"
+                                        prop="price"
+                                        [width]="120"
+                                >
+                                    <ng-template
+                                        let-row="row"
+                                        let-name="value"
+                                        ngx-datatable-cell-template
+                                    >
+                                        <div class="d-flex align-items-center">
+                                            {{ row?.price }}
+                                        </div>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                            </ngx-datatable>
+                        </section>
+
+                        <div class="d-flex justify-content-between">
+                            <button
+                                    (click)="backLink()"
+                                    class="btn btn-outline-secondary btn-prev"
+                                    rippleEffect
+                            >
+                                <i
+                                        data-feather="arrow-left"
+                                        class="align-middle mr-sm-25 mr-0"
+                                ></i>
+                                <span class="align-middle d-sm-inline-block"
+                                >Back To Listing</span
+                                >
+                            </button>
+                            <div></div>
+                        </div>
+                    </div>
+                    <!-- Payments TAB CONTENT -->
+                    <div id="payment-info" class="content">
+                        <div class="row">
+                            <div class="content-header jobs-detail">
+                                <h5 class="mb-0">Payments Detail</h5>
+                            </div>
+                            <div class="show-records">
+                                <label class="d-flex align-items-center">
+                                    Show
+                                    <select
+                                            class="form-control mx-25"
+                                            (change)="handlePageLimit('payments')"
+                                            [(ngModel)]="pageSize"
+                                    >
+                                        <option value="2">2</option>
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                    records
+                                </label>
+                            </div>
+                        </div>
+                        <!-- DATATABLE OF JOBS START -->
+                        <div class="row"></div>
+                        <section id="ngx-datatable-row-details">
+                            <ngx-datatable
+                                #tableRowDetails
+                                class="bootstrap core-bootstrap"
+                                [columnMode]="ColumnMode.force"
+                                [headerHeight]="40"
+                                [footerHeight]="50"
+                                [rowHeight]="'auto'"
+                                [limit]="pageSize"
+                                [rows]="payments"
+                                [scrollbarH]="true"
+                                [externalPaging]="true"
+                                [count]="totalPayments"
+                                [offset]="offset"
+                                (page)="setPage($event,'payments')"
+                            >
+                                <!-- TITLE COLUMN -->
+                                <ngx-datatable-column name="job TITLE" [width]="120">
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <div class="d-flex align-items-center">
+                                            <div>
+                                                <div>
+                                                    {{ row?.job?.title }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <!-- CLIENT NAME COLUMN -->
+                                <ngx-datatable-column name="amount" [width]="120">
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <div class="d-flex align-items-center">
+                                            <div>
+                                                <div>
+                                                    {{ row?.amount }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <!-- ENDED AT COLUMN -->
+                                <ngx-datatable-column name="Created At" [width]="120">
+                                    <ng-template
+                                        let-row="row"
+                                        let-name="value"
+                                        ngx-datatable-cell-template
+                                    >
+                                        <div class="d-flex align-items-center">
+                                            <!-- <div class="cell-line-height">
+                                                  <p class="font-medium-1 line-height-1 mb-0"> -->
+                                            {{ row?.createdAt | date: "dd MMM yyyy" }}
+                                            <!-- </p>
+                                                </div> -->
+                                        </div>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="status" prop="price" [width]="120">
+                                    <ng-template
+                                        let-row="row"
+                                        let-name="value"
+                                        ngx-datatable-cell-template
+                                    >
+                                        <div class="d-flex align-items-center">
+                                            {{ row?.status }}
+                                        </div>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                            </ngx-datatable>
+                        </section>
+
+                        <div class="d-flex justify-content-between">
+                            <button
+                                    (click)="backLink()"
+                                    class="btn btn-outline-secondary btn-prev"
+                                    rippleEffect
+                            >
+                                <i
+                                        data-feather="arrow-left"
+                                        class="align-middle mr-sm-25 mr-0"
+                                ></i>
+                                <span class="align-middle d-sm-inline-block"
+                                >Back To Listing</span
+                                >
+                            </button>
+                            <div></div>
+                        </div>
+                    </div>
+                    <!-- SKILLS TAB CONTENT -->
+                    <div id="address-step-vertical" class="content">
+                        <div class="content-header">
+                            <h5 class="mb-0">{{ freelancer?.fullName }} Skills</h5>
+                        </div>
+                        <div class="row">
+                            <div class="skillDiv" *ngFor="let skill of freelancerSkills">
+                                <i class="skills"
+                                >{{ skill.name
+                                    }}<span (click)="deleteSkill(skill.name)"
+                                    ><i class="x-circle" data-feather="x-circle"></i></span
+                                    ></i>
+                            </div>
+                        </div>
+                        <div class="newSkillDiv">
+                            <h5>Add New Skills</h5>
+
+                            <ng-select
+                                    [placeholder]="'Select New Skills'"
+                                    [items]="categories"
+                                    [multiple]="false"
+                                    bindLabel="name"
+                                    groupBy="path"
+                                    [clearable]="false"
+                                    [selectableGroup]="false"
+                                    [closeOnSelect]="true"
+                                    bindValue="name"
+                                    (change)="changeCat()"
+                                    [ngModelOptions]="{ standalone: true }"
+                                    [(ngModel)]="selectedCategory"
+                            >
+                            </ng-select>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <button
+                                    (click)="backLink()"
+                                    class="btn btn-outline-secondary btn-prev"
+                                    rippleEffect
+                            >
+                                <i
+                                        data-feather="arrow-left"
+                                        class="align-middle mr-sm-25 mr-0"
+                                ></i>
+                                <span class="align-middle d-sm-inline-block"
+                                >Back To Listing</span
+                                >
+                            </button>
+                            <button
+                                    *ngIf="showUpdateButton"
+                                    (click)="addNewSkill()"
+                                    style="float: right"
+                                    class="btn btn-outline-secondary btn-prev"
+                                    rippleEffect
+                            >
+                <span class="green">Update Skills</span
+                ><i class="plus-circle green" data-feather="plus-circle"></i>
+                            </button>
+                            <div></div>
+                        </div>
+                    </div>
+                    <!-- PROFILE TAB CONTENT -->
+                    <div id="social-links-vertical" class="content">
+                        <div class="content-header">
+                            <h5 class="mb-0">{{ freelancer?.fullName }} Documents</h5>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label class="form-label" for="vertical-address">Resume</label>
+                                <div>
+                                    <button
+                                            class="btn btn-outline-success mr-1"
+                                            rippleEffect
+                                            (click)="viewResume(freelancer.resume)"
+                                    >
+                                        <p>View Resume</p>
+                                        <i data-feather="file-text"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="form-label" for="vertical-landmark"
+                                >Portfolio</label
+                                >
+                                <div class="row">
+                                    <div *ngFor="let file of freelancerPortfolio">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <small class="center">{{ getFileName(file) }}</small>
+                                                <img
+                                                        class="center"
+                                                        src="{{ getThumbnail(file) }}"
+                                                        width="70"
+                                                        height="55"
+                                                />
+                                                <a class="center" href="{{ file }}" target="_blank"
+                                                >preview</a
+                                                >
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <button
+                                    (click)="backLink()"
+                                    class="btn btn-outline-secondary btn-prev"
+                                    rippleEffect
+                            >
+                                <i
+                                        data-feather="arrow-left"
+                                        class="align-middle mr-sm-25 mr-0"
+                                ></i>
+                                <span class="align-middle d-sm-inline-block"
+                                >Back To Listing</span
+                                >
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<!-- Documents POP-UP -->
+<ng-template #modalSM let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel160">Designer Legal Documents</h5>
+        <button
+                type="button"
+                class="close"
+                (click)="modal.dismiss('Cross click')"
+                aria-label="Close"
+        >
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+        <!-- some text here  -->
+        <swiper
+                class="swiper-progress swiper-container"
+                [config]="swiperProgress"
+                [(index)]="index"
+        >
+            <img
+                    class="img-fluid"
+                    id="selected-image"
+                    src="{{ selectedImage }}"
+                    alt="banner"
+            />
+        </swiper>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="rotateTheImage()">
+            Rotate
+        </button>
+        <button
+                type="button"
+                class="btn btn-primary"
+                (click)="modal.close('Accept click')"
+        >
+            Close
+        </button>
+    </div>
+</ng-template>
+
+<div class="login-form">
+    <ng-template #modalForm let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel1">
+                Please add comments about your action.
+            </h4>
+            <button
+                    type="button"
+                    class="close"
+                    (click)="modal.dismiss('Cross click')"
+                    aria-label="Close"
+            >
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body" tabindex="0" ngbAutofocus>
+            <form action="#">
+                <label> Write comments/notes (for future reference): </label>
+                <div class="form-group">
+          <textarea
+                  [disabled]="loader"
+                  [class.error]="commentsForFreelancerStatusUpdate == '' && submited"
+                  name="comment-area"
+                  id="comment-area"
+                  class="form-control"
+                  [(ngModel)]="commentsForFreelancerStatusUpdate"
+                  name="comment-area"
+                  rows="3"
+                  placeholder="Write your comments"
+                  [maxlength]="800"
+          ></textarea>
+                </div>
+                <span
+                        *ngIf="commentsForFreelancerStatusUpdate == '' && submited"
+                        class="invalid-form"
+                >
+          <small class="form-text text-danger">This comment is required!</small>
+        </span>
+            </form>
+        </div>
+        <div class="loader" *ngIf="loader">
+            <div
+                    class="spinner-border mr-50"
+                    style="width: 3rem; height: 3rem"
+                    role="status"
+            ></div>
+        </div>
+        <div class="modal-footer">
+            <button
+                    type="button"
+                    class="btn btn-primary"
+                    [disabled]="loader"
+                    (click)="updateFreelancerStatus()"
+                    rippleEffect
+            >
+                Done
+            </button>
+        </div>
+    </ng-template>
+</div>

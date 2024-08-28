@@ -1,0 +1,21 @@
+<!-- Menu header -->
+<div class="navbar-header">
+  <ul class="nav navbar-nav flex-row">
+    <li class="nav-item mr-auto">
+      <!-- App Branding -->
+      <a class="navbar-brand" [routerLink]="['/admin/dashboard']">
+        <span class="brand-logo">
+          <img src="{{ coreConfig.app.appLogoImage }}" alt="brand-logo" />
+        </span>
+        <h2 class="brand-text mb-0">{{ coreConfig.app.appName }} </h2>
+      </a>
+    </li>
+  </ul>
+</div>
+<br>
+
+<div class="shadow-bottom" [ngClass]="{ 'd-block': isScrolled }"></div>
+
+<div class="main-menu-content" [perfectScrollbar] (scroll)="onSidebarScroll()">
+  <ul class="navigation navigation-main" layout="vertical" core-menu></ul>
+</div>

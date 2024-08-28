@@ -1,0 +1,94 @@
+@import "@core/scss/angular/libs/form-wizard.component.scss";
+@import "@core/scss/angular/libs/select.component.scss";
+
+.freelancer-profile-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    height: auto;
+    .profile-pic {
+        max-width: 300px;
+        max-height: 400px;
+        width: 280px;
+        height: 370px;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        border-radius: 10px;
+    }
+    .freelancer-info-table {
+        margin: 0.5rem;
+        tr {
+            margin-bottom: 1rem;
+        }
+        td {
+            margin-right: 1rem;
+        }
+    }
+}
+
+.back-grad{
+    background: linear-gradient( #10163a80 0%,#a9f66e77 100%) !important;
+    margin:10px !important;
+}
+.mb-35-px {
+    margin-bottom: 35px;
+}
+.selected-item {
+    max-width: 300px!important;
+}
+
+.center-clm-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.container-height {
+    max-height: 531.64px;
+    height: 531.64px;
+}
+
+.picture-box {
+    height: 170px;
+    border-radius: 10px;
+    border: 1.5px solid #efefef;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    cursor: zoom-in;
+}
+.description-container-edit-job {
+    max-height: 133px; /* Set the maximum height for the container */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+.btn-view-section{
+    padding: 10px 20px !important;
+}
+.description-group {
+    display: flex;
+    align-items: center;
+}
+
+.icon-buttons {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.description-row {
+    margin-bottom: 10px;
+}
+
+.close-btn {
+    position: absolute;
+    bottom: 4%;
+}
+.m-10 {
+    margin: 10px !important;
+}
+.pl {
+    position: relative;
+}

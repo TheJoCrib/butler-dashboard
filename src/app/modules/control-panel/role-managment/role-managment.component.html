@@ -1,0 +1,301 @@
+<div class="content-wrapper container-xxl p-0">
+  <div *ngIf="!showAddUpdateRoleDiv" class="content-body">
+    <app-content-header [contentHeader]="contentHeader"></app-content-header>
+    <div class="row">
+      <div class="col-md-6 col-12 mb-50">
+        <div class="d-flex justify-content-between align-items-center">
+          <label class="d-flex align-items-center"
+            >Show
+            <select
+              class="form-control mx-25"
+              (change)="handleLimit()"
+              [(ngModel)]="pageSize"
+            >
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+            </select>
+            records</label
+          >
+        </div>
+      </div>
+
+      <div class="col-md-6 col-12 d-flex justify-content-md-end mb-50">
+        <div class="row">
+          <div
+            class="col-md-{{
+              checkPermission(confPerm.CREATE_ROLE) ? '6' : '8'
+            }} col-12 d-flex justify-content-md-end"
+          >
+            <div
+              class="d-flex align-items-center justify-content-end pr-1 pb-1 pl-1 pl-md-0 pb-md-0"
+            >
+              <label class="d-flex align-items-center"
+                >Search<input
+                  type="search"
+                  placeholder="Search..."
+                  class="form-control ml-25"
+                  (keyup)="filterUpdate($event)"
+                  (search)="filterUpdate($event)"
+              /></label>
+            </div>
+          </div>
+          <div
+            *ngIf="checkPermission(confPerm.CREATE_ROLE)"
+            class="col-md-6 col-12 align-self-sm-start"
+          >
+            <button
+              (click)="addNewRole()"
+              class="btn btn-primary ml-1"
+              rippleEffect
+            >
+              <i data-feather="plus" class="mr-0 mr-sm-1"></i
+              ><span class="d-none d-sm-inline-block">Add New Role</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <section id="ngx-datatable-row-details">
+      <ngx-datatable
+      #tableRowDetails
+      class="bootstrap core-bootstrap"
+      [columnMode]="ColumnMode.force"
+      [headerHeight]="40"
+      [footerHeight]="50"
+      [rowHeight]="'auto'"
+      [limit]="pageSize"
+      [rows]="roles"
+      [scrollbarH]="true"
+      [externalPaging]="true"
+      [count]="totalRoles"
+      [offset]="offset"
+      (page)="setPage($event)"
+      >
+        <ngx-datatable-column name="Title" [width]="210">
+          <ng-template ngx-datatable-cell-template let-row="row">
+            <div class="d-flex align-items-center clickable">
+              {{ row?.title }}
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Description" [width]="150">
+          <ng-template ngx-datatable-cell-template let-row="row">
+            <div class="d-flex align-items-center clickable">
+              {{ row?.description }}
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Created At" [width]="150">
+          <ng-template ngx-datatable-cell-template let-row="row">
+            <div class="d-flex align-items-center clickable">
+              {{ row?.createdAt | date: "short" }}
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Actions" [width]="140" [sortable]="false">
+          <ng-template ngx-datatable-cell-template let-row="row">
+            <div class="d-flex align-items-center">
+              <a
+                *ngIf="checkPermission(confPerm.DELETE_ROLE)"
+                (click)="deleteRole(row)"
+              >
+                <i data-feather="trash" class="mr-0 mr-sm-1"></i
+              ></a>
+              <a
+                *ngIf="checkPermission(confPerm.UPDATE_ROLE)"
+                (click)="editRole(row)"
+                ><i data-feather="edit-3"></i
+              ></a>
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+
+      <div *ngIf="loading" class="loader">
+        <div
+          class="spinner-border mr-50"
+          style="width: 3rem; height: 3rem"
+          role="status"
+        ></div>
+      </div>
+      <div *ngIf="loader" class="loader-div">
+        <div class="loading-spinner">
+          <div class="loader">
+            <div class="spinner-border mr-50" role="status"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <swal
+      #SweetAlertConfirmEnable
+      (open)="updateVehicleStatus('enable')"
+    ></swal>
+    <swal
+      #SweetAlertConfirmUnDisable
+      (open)="updateVehicleStatus('disable')"
+    ></swal>
+  </div>
+
+  <div *ngIf="showAddUpdateRoleDiv" class="content-body">
+    <app-content-header [contentHeader]="contentHeader"></app-content-header>
+    <div class="row">
+      <div class="col-md-6 col-12 mb-50"></div>
+      <div class="col-md-6 col-12 d-flex justify-content-md-end mb-50">
+        <button
+          (click)="showAddUpdateRoleDiv = !showAddUpdateRoleDiv"
+          class="btn btn-outline-secondary ml-1"
+          rippleEffect
+        >
+          <i data-feather="arrow-left" class="mr-0 mr-sm-1"></i
+          ><span class="d-none d-sm-inline-block"> Back To Listing</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-2 col-1"></div>
+      <div class="col-md-8 col-12">
+        <section id="basic-horizontal-layouts" class="card">
+          <div class="row match-height">
+            <div class="col-md-12 col-12">
+              <h4 class="card-title padding-15">{{ cardTitle }}</h4>
+              <div class="card-body">
+                <form
+                  class="form form-horizontal"
+                  [formGroup]="RoleForm"
+                  (ngSubmit)="onSubmit()"
+                >
+                  <div class="form-group row">
+                    <div class="col-sm-3 col-form-label">
+                      <label for="title">Title</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <input
+                        [ngClass]="{
+                          'is-invalid error': submitted && f.title.errors
+                        }"
+                        formControlName="title"
+                        type="text"
+                        id="title"
+                        class="form-control"
+                        name="fname"
+                        placeholder="Enter role title"
+                      />
+                      <div
+                        *ngIf="submitted && f.title.errors"
+                        class="invalid-feedback"
+                        [ngClass]="{
+                          'd-block': submitted && f.title.errors
+                        }"
+                      >
+                        <div *ngIf="f.title.errors.required">
+                          title is required
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-sm-3 col-form-label">
+                      <label for="title">Description</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <input
+                        formControlName="description"
+                        type="text"
+                        id="title"
+                        class="form-control"
+                        name="description"
+                        placeholder="Enter description "
+                      />
+                      <div
+                        *ngIf="submitted && f.description.errors"
+                        class="invalid-feedback"
+                        [ngClass]="{
+                          'd-block': submitted && f.description.errors
+                        }"
+                      >
+                        <div *ngIf="f.description.errors.required">
+                          description is required
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="grid">
+                    <!-- Default switch -->
+                    <div *ngFor="let tp of permissionTypes">
+                      <div class="row">
+                        <h2 class="card-title padding-15">
+                          {{ tp | titlecase }}
+                        </h2>
+                      </div>
+                      <div *ngFor="let p of allPermissions; let i = index">
+                        <div
+                          *ngIf="tp == p.type"
+                          class="custom-control col mb-50 custom-switch"
+                        >
+                          <input
+                            type="checkbox"
+                            class="custom-control-input"
+                            [checked]="isChecked(p.value)"
+                            (change)="handlePermToggle($event, p.value)"
+                            id="perm-switch-{{ i }}"
+                          />
+                          <label
+                            class="custom-control-label"
+                            for="perm-switch-{{ i }}"
+                            >{{ p.text | titlecase }}</label
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    *ngIf="submitted && f.permissions.errors"
+                    class="invalid-feedback"
+                    [ngClass]="{
+                      'd-block': submitted && f.permissions.errors
+                    }"
+                  >
+                    <div *ngIf="f.permissions.errors.required">
+                      permissions are required
+                    </div>
+                  </div>
+
+                  <div class="col-sm-9 offset-sm-3">
+                    <button
+                      [disabled]="loader"
+                      type="submit"
+                      rippleEffect
+                      class="btn btn-primary mr-1"
+                    >
+                      <span
+                        *ngIf="loader"
+                        class="spinner-border spinner-border-sm"
+                      ></span>
+                      {{ buttonText }}
+                    </button>
+                    <button
+                      (click)="showAddUpdateRoleDiv = !showAddRoleAdminDiv"
+                      type="reset"
+                      rippleEffect
+                      class="btn btn-outline-secondary"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="col-md-3 col-1"></div>
+    </div>
+  </div>
+</div>

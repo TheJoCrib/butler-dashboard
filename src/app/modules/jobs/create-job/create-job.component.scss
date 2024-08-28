@@ -1,0 +1,109 @@
+@import "@core/scss/angular/libs/form-wizard.component.scss";
+@import "@core/scss/angular/libs/select.component.scss";
+
+.freelancer-profile-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    height: auto;
+    .profile-pic {
+        max-width: 300px;
+        max-height: 400px;
+        width: 280px;
+        height: 370px;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        border-radius: 10px;
+    }
+    .freelancer-info-table {
+        margin: 0.5rem;
+        tr {
+            margin-bottom: 1rem;
+        }
+        td {
+            margin-right: 1rem;
+        }
+    }
+}
+.selected-item{
+    max-width: 300px !important;
+}
+.dropdown-multiselect__caret{
+    size: 0rem !important;
+}
+/* Float four columns side by side */
+.column {
+    float: left;
+    width:auto;
+    padding: 8px;
+  }
+.body-text{
+    color: aliceblue!important;
+}
+.back-grad{
+    background: linear-gradient( #10163a80 0%,#a9f66e77 100%) !important;
+    margin:10px !important;
+}
+
+.mb-35-px {
+    margin-bottom: 35px;
+}
+
+.center-clm-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.container-height {
+    max-height: 531.64px;
+    height: 531.64px;
+}
+
+.picture-box {
+    height: 170px;
+    border-radius: 10px;
+    border: 1.5px solid #efefef;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    cursor: zoom-in;
+}
+.description-container {
+    max-height: 200px; /* Set the maximum height for the container */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+.description-group {
+    display: flex;
+    align-items: center;
+}
+
+.icon-buttons {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.description-row {
+    margin-bottom: 10px;
+}
+
+.close-btn {
+    position: absolute;
+    bottom: 4%;
+}
+
+.pl {
+    position: relative;
+}
+
+.next-btn {
+    font-size: 1rem !important;
+    font-weight: 500 !important;
+    line-height: 1 !important;
+    color: #6c757d !important;
+    padding: 0.786rem 1.5rem !important;
+}

@@ -1,0 +1,14 @@
+<div class="spinner-overlay" *ngIf="isLoading$ | async"></div>
+
+<mat-progress-spinner
+  *ngIf="isLoading$ | async"
+  color="primary"
+  class="position-absolute"
+  mode="indeterminate"
+></mat-progress-spinner>
+
+<ng-container>
+  <vertical-layout></vertical-layout>
+</ng-container>
+
+<router-outlet></router-outlet>

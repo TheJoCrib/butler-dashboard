@@ -1,0 +1,17 @@
+<div class="container-fluid  w-100">
+    <h1 mat-dialog-title class=" header-navbar p-0">Enter New Subcategory for {{ data.node.name }} </h1>
+    <div mat-dialog-content>
+                                <input
+                                        type="text"
+                                        id="input-new-node"
+                                        class="form-control"
+                                        [(ngModel)]="data.name"
+                                        placeholder="Enter subcategory for {{ data.node.name }}"
+                                />
+    </div>
+    <mat-dialog-actions align="end">
+        <button mat-button [mat-dialog-close]="false" class="btn-no px-2">Cancel</button>
+        <button mat-button [mat-dialog-close]="data.name" class="btn-yes px-2">Save</button>
+    </mat-dialog-actions>
+</div>
+

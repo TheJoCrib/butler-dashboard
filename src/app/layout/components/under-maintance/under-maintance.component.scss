@@ -1,0 +1,119 @@
+/* General Styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Logo */
+.logo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px; /* Adjust the size as needed */
+  height: auto;
+  margin: 0; /* Remove any margin */
+  z-index: 1000; /* Ensure it stays on top of other elements */
+
+  @media (max-width: 768px) {
+    width: 200px; /* Smaller size for mobile screens */
+  }
+
+  @media (max-width: 480px) {
+    width: 150px; /* Even smaller size for very small screens */
+  }
+}
+
+/* Navigation Bar */
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed; /* Fix the position so it stays in place */
+  top: 0;
+  right: 0;
+  width: calc(100% - 280px); /* Full width minus the width of the logo */
+  height: 180px; /* Same as the logo's height */
+  padding: 0 1rem;
+  box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    width: calc(100% - 200px); /* Adjust based on smaller logo */
+    height: 150px; /* Adjust height for mobile screens */
+    margin-left: 200px; /* Adjust margin for smaller logo */
+  }
+
+  @media (max-width: 480px) {
+    width: calc(100% - 150px); /* Adjust based on even smaller logo */
+    height: 120px; /* Adjust height for very small screens */
+    margin-left: 150px; /* Adjust margin for smaller logo */
+  }
+}
+
+.nav-links {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  width: 30%; /* Adjust width for specific length */
+
+  @media (max-width: 480px) {
+    margin-left: 10px; /* Adjust margin for smaller logo */
+    width: 100%; /* Adjust width for specific length */
+  }
+
+  @media (max-width: 768) {
+    margin: 10px; /* Adjust margin for smaller logo */
+    width: 100%;
+    background-color: red;
+  }
+}
+
+.nav-links li {
+  display: inline-block;
+  flex: 1; /* Ensure each link takes up equal space */
+  text-align: center; /* Center the text within each block */
+}
+
+.nav-links a {
+  text-decoration: none;
+  font-weight: 600;
+  color: #333;
+  font-size: 1.2rem;
+  transition: color 0.3s;
+
+  &:hover {
+    color: #66c2a6; /* Greenish color on hover */
+  }
+
+  &.active {
+    color: #66c2a6; /* Greenish color when active */
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1rem; /* Smaller font size for very small screens */
+  }
+
+  @media (max-width: 768px) {
+    margin-left: 0px; /* Adjust margin for smaller logo */
+    width: 100%; /* Adjust width for specific length */
+  }
+}
+
+/* Underline */
+.underline {
+  position: absolute;
+  bottom: -5px; /* Adjust position relative to the navbar */
+  left: 50%;
+  transform: translateX(-50%); /* Center the underline */
+  width: 500px; /* Adjust the length of the underline */
+  height: 2px;
+  background-color: #7e7e7e; /* Underline color */
+  top: 120px;
+
+  @media (max-width: 480px) {
+    margin-left: 10px; /* Adjust margin for smaller logo */
+    width: 100%; /* Adjust width for specific length */
+  }
+}

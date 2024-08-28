@@ -1,0 +1,181 @@
+<div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+        <app-content-header [contentHeader]="contentHeader"></app-content-header>
+        <section class="vertical-wizard">
+            <div id="stepper2" class="bs-stepper vertical vertical-wizard-example">
+                <!-- TABS -->
+                <div class="bs-stepper-header pl">
+                    <!-- FREELANCER DETAILS TAB -->
+                    <div class="step" data-target="#account-details-vertical">
+                        <button type="button" class="step-trigger">
+                            <span class="bs-stepper-box">1</span>
+                            <span class="bs-stepper-label">
+                <span class="bs-stepper-title">Client Details</span>
+                <span class="bs-stepper-subtitle"
+                >Client-ID: <br/>{{ client?._id }}</span
+                >
+              </span>
+                        </button>
+                    </div>
+                    <!-- JOBS TAB -->
+
+                </div>
+                <!-- TABS CONTENT -->
+                <div class="bs-stepper-content">
+                    <!-- FREELANCER DETAILS TAB CONTENT -->
+                    <div id="account-details-vertical" class="content">
+                        <div class="content-header">
+                            <h5 class="mb-0">
+                                Client Details
+                            </h5>
+
+                            <small class="text-muted">
+                                Joining Date:
+                                {{ client?.createdAt | date: "dd MMM yyyy" }}
+                            </small>
+
+                            <br/>
+                        </div>
+                        <div class="row">
+                            <!-- FREELANCER DEATAILS SECTION -->
+                            <div class="form-group col-md-6">
+                                <div class="row">
+                                    <!-- FREELANCER FULLNAME -->
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-address"
+                                        >Full Name</label
+                                        >
+                                        <input
+                                                type="text"
+                                                disabled
+                                                value="{{ client?.fullName }}"
+                                                class="form-control"
+                                        />
+                                    </div>
+                                    <!-- FREELANCER ID -->
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-address"
+                                        >Email</label
+                                        >
+                                        <input
+                                                type="text"
+                                                disabled
+                                                value="{{ client?.email }}"
+                                                class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- FREELANCER PHONE NUMBER -->
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-landmark"
+                                        >Phone Number</label
+                                        >
+                                        <input
+                                                type="text"
+                                                value="{{ client?.phone }}"
+                                                disabled
+                                                class="form-control"
+                                        />
+                                    </div>
+                                    <!-- FREELANCER CITY -->
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-landmark"
+                                        >City</label
+                                        >
+                                        <input
+                                                type="text"
+                                                disabled
+                                                value="{{ client?.city }}"
+                                                class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- FREELANCER ADDRESS -->
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-landmark"
+                                        >Address</label
+                                        >
+                                        <input
+                                                type="text"
+                                                disabled
+                                                value="{{ client?.address }}"
+                                                class="form-control"
+                                        />
+                                    </div>
+                                    <!-- FREELANCER COUNTRY -->
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-landmark"
+                                        >Country</label
+                                        >
+                                        <input
+                                                type="text"
+                                                disabled
+                                                value="{{ client?.country }}"
+                                                class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- FREELANCER HEARD FROM -->
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-landmark"
+                                        >Heard From</label
+                                        >
+                                        <input
+                                                type="text"
+                                                disabled
+                                                value="{{ client?.heardFrom }}"
+                                                class="form-control"
+                                        />
+                                    </div>
+                                    <!-- FREELANCER COUNTRY -->
+                                    <div class="form-group col-md-6"></div>
+                                </div>
+                                <div class="row">
+                                    <!-- FREELANCER ABOUT ME -->
+                                    <div class="form-group col-md-12">
+                                        <label class="form-label font-weight-bold" for="vertical-landmark"
+                                        >Review</label
+                                        >
+                                        <p>
+                                            {{ selectedReview?.comment }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FREELANCER PROFILE PICTURE SECTION-->
+
+                        </div>
+                        <!-- FREELANCER DETAILS BACK TO LISTING BUTTON-->
+                        <div class="d-flex ">
+                            <button
+                                    (click)="backLink()"
+                                    class="btn btn-outline-secondary btn-prev"
+                                    rippleEffect
+                            >
+                                <i
+                                        data-feather="arrow-left"
+                                        class="align-middle mr-sm-25 mr-0"
+                                ></i>
+                                <span class="align-middle d-sm-inline-block"
+                                >Back To Listing</span
+                                >
+                            </button>
+
+
+                            <div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+

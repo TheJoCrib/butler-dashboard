@@ -1,0 +1,78 @@
+@import "@core/scss/core.scss";
+@import "./assets/scss/styles";
+@import "@core/scss/angular/libs/toastr.component.scss";
+@import "@core/scss/angular/libs/datatables.component.scss";
+@import "@core/scss/angular/libs/select.component.scss";
+@import "@core/scss/base/plugins/charts/chart-apex";
+@import "@core/scss/base/bootstrap-extended/include";
+@import "@core/scss/base/pages/page-auth.scss";
+@import "@core/scss/base/core/menu/menu-types/vertical-menu.scss";
+@import "@core/scss/base/core/menu/menu-types/vertical-overlay-menu.scss";
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+.datatable-scroll {
+    width: auto !important;
+}
+
+.loader {
+    display: flex;
+    justify-content: center;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.space-around {
+    justify-content: space-around;
+}
+
+.d-flex-content-center {
+    display: flex;
+    justify-content: center;
+}
+
+.margin-right-10px {
+    margin-right: 10px;
+}
+.padding-15 {
+    padding: 15px 0px 0px 15px;
+}
+
+// ::Loader - start::
+.loader-div {
+    background-color: rgba(255, 255, 255, 0.36);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    .loading-spinner {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        will-change: transform;
+        width: 211px;
+        height: 211px;
+        display: inline-block;
+        overflow: hidden;
+        .loader {
+            .spinner-border {
+                width: 3rem;
+                height: 3rem;
+            }
+        }
+    }
+}
+.search-btn {
+    margin-bottom: 4px;
+    height: 2.6rem;
+}
+
+.width-360px {
+    width: 360px;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

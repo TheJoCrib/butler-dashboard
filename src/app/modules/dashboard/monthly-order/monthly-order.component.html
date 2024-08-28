@@ -1,0 +1,22 @@
+<div class="card card-tiny-line-stats">
+
+  <div class="card-body pb-50">
+    <h6>Monthly Order</h6>
+    <h2 class="font-weight-bolder mb-1">{{ monthlyOrderData?.monthlyOrderCount | shortNumber }}</h2>
+    <div id="statistics-line-chart" #statisticsLineChartRef>
+      <apx-chart [chart]="{
+height: 70,
+width: isMenuToggled === false ? statisticsLineChartRef.offsetWidth : statisticsLine.chart.width,
+type: 'line',
+toolbar: {
+  show: false
+},
+zoom: {
+  enabled: false
+}
+}" [grid]="statisticsLine.grid" [stroke]="statisticsLine.stroke" [colors]="statisticsLine.colors"
+        [series]="data.profitChart.series" [markers]="statisticsLine.markers" [xaxis]="statisticsLine.xaxis"
+        [yaxis]="statisticsLine.yaxis" [tooltip]="statisticsLine.tooltip"></apx-chart>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,34 @@
+<div class="card card-browser-states">
+    <div class="card-header py-1  px-1 most-requested-jobs-header">
+        <div class="broweser-states-header">
+            <div class="broweser-states-heade">
+                <h4 class="card-title">Most Requested Jobs</h4>
+            </div>
+        </div>
+        <div class="text-right">
+            <div class="input-group">
+                <select name="dropdown-requested-jobs" id="dropdown-requested-jobs"
+                        (change)="filtrationHandler($event)">
+                    <option value="X">All Time</option>
+                    <option value="S">Last 7 Days</option>
+                    <option value="F">Last 14 Days</option>
+                    <option value="T">Last 30 Days</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="loader" *ngIf="loader">
+            <div class="spinner-border mr-50" style="width: 3rem; height: 3rem" role="status">
+            </div>
+        </div>
+        <div class="browser-states" *ngFor="let item of itemSource">
+            <div class="media">
+                <h4 class="align-self-center mb-0">{{item?.name}}</h4>
+            </div>
+            <div class="d-flex align-items-center">
+                <div class="font-weight-bold text-body-heading mr-1">{{item?.percentage }}</div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,119 @@
+<div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+        <app-content-header [contentHeader]="contentHeader"></app-content-header>
+        <div class="row">
+            <div class="col-md-6 col-12">
+                <div class="d-flex justify-content-between align-items-center m-1">
+                    <label class="d-flex align-items-center">
+                        Show
+                        <select
+                                (change)="handlePageLimit()"
+                                [(ngModel)]="pageSize" class="form-control mx-25"
+                        >
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                        </select>
+                        records
+                    </label>
+                </div>
+            </div>
+
+
+            <div class="col-md-6 col-12 d-flex justify-content-md-end">
+
+                <div
+                        class="d-flex align-items-center justify-content-end pr-1 pb-1 pl-1 pl-md-0 pb-md-0"
+                >
+
+                    <label class="d-flex align-items-center">
+                        Search<input
+                            (keyup)="searchRequests($event)"
+                            (search)="searchRequests($event)"
+                            class="form-control ml-25"
+                            placeholder="Search"
+                            type="search"
+                    />
+                    </label>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- DATATABLE START -->
+        <section class="w-100" id="ngx-datatable-row-details">
+            <ngx-datatable
+                #tableRowDetails
+                (page)="setPage($event)"
+                [columnMode]="ColumnMode.force"
+                [count]="itemSource.length"
+                [externalPaging]="true"
+                [footerHeight]="50"
+                [headerHeight]="40"
+                [limit]="pageSize"
+                [offset]="offset"
+                [rowHeight]="'auto'"
+                [rows]="itemSource"
+                [scrollbarH]="true"
+                class="bootstrap core-bootstrap"
+            >
+                <ngx-datatable-column
+                        [width]="150"
+                        name="designer name"
+                        prop="designerName"
+                >
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <div class="d-flex align-items-center">
+                            <div>
+                                <div class="font-weight-bolder">
+                                    {{ row?.designerName }}
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <!--<ngx-datatable-column name="Phone Number" prop="primary_phone" [width]="160"></ngx-datatable-column>-->
+                <!-- EMAIL COLUMN -->
+                <ngx-datatable-column
+                        [width]="160"
+                        name="Phone"
+                        prop="phone"
+                ></ngx-datatable-column>
+                <!-- CITY COLUMN -->
+                <ngx-datatable-column
+                        [width]="110"
+                        name="About Me"
+                        prop="aboutMe"
+                ></ngx-datatable-column>
+
+                <!--<ngx-datatable-column name="Vehicle Type" prop="vehicle_type" [width]="135">
+                    </ngx-datatable-column>-->
+                <!-- REQUEST DATE COLUMN -->
+                <ngx-datatable-column
+                        [width]="120"
+                        name="status"
+                        prop="status"
+                >
+                </ngx-datatable-column>
+
+                <ngx-datatable-column [sortable]="false" [width]="115" name="Actions">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <div class="d-flex align-items-center">
+                            <button
+                                    (click)="navigateToDetailsView(row)"
+                                    class="btn btn-outline-secondary btn-sm"
+                                    rippleEffect
+                                    type="button"
+                            >
+                                View Details
+                            </button>
+
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+            </ngx-datatable>
+
+        </section>
+    </div>
+</div>

@@ -1,0 +1,109 @@
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col-lg-2 col-md-6  d-flex justify-content-center align-items-center">
+            <div class="card card-stats w-100">
+                <div class="card-body text-center">
+                    <div class="avatar bg-light-primary p-50 m-0 mb-1">
+                        <div class="avatar-content">
+                            <i class="font-medium-5" data-feather="users"></i>
+                        </div>
+                    </div>
+                    <div *ngIf="loader" class="loader">
+                        <div class="spinner-border mr-50" role="status" style="width: 3rem; height: 3rem"></div>
+                    </div>
+                    <div>
+                        <h2 class="font-weight-bolder">{{statistics?.designers | shortNumber}}</h2>
+                        <p class="mb-0 line-ellipsis text-truncate" data-toggle="tooltip" title="Designer's earnings">
+                            Total Designers</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-6  d-flex justify-content-center align-items-center">
+            <div class="card card-stats w-100">
+                <div class="card-body text-center">
+                    <div class="avatar bg-light-primary p-50 m-0 mb-1">
+                        <div class="avatar-content">
+                            <i class="font-medium-5" data-feather="users"></i>
+                        </div>
+                    </div>
+                    <div *ngIf="loader" class="loader">
+                        <div class="spinner-border mr-50" role="status" style="width: 3rem; height: 3rem"></div>
+                    </div>
+                    <div>
+                        <h2 class="font-weight-bolder">{{statistics?.clients | shortNumber}}</h2>
+                        <p class="mb-0 line-ellipsis text-truncate" data-toggle="tooltip" title="Total Clients">Total
+                            Clients</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-6  d-flex justify-content-center align-items-center">
+            <div class="card card-stats w-100">
+                <div class="card-body text-center">
+                    <div class="avatar bg-light-primary p-50 m-0 mb-1">
+                        <div class="avatar-content">
+                            <i class="font-medium-5" data-feather="dollar-sign"></i>
+                        </div>
+                    </div>
+                    <div *ngIf="loader" class="loader">
+                        <div class="spinner-border mr-50" role="status" style="width: 3rem; height: 3rem"></div>
+                    </div>
+                    <div>
+                        <h2 class="font-weight-bolder  text-center">{{profits?.profitBeforeDesignerCut }}</h2>
+                        <div class="mb-0 line-ellipsis text-truncate" data-toggle="tooltip" title="Butler's Profit">
+                            <div class="text-container text-center">
+                                <span class="dashboard-card-text font-weight-bold">Butler's Profit</span>
+                                <span class="dashboard-card-text small">Before Designer Cut</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-6 d-flex justify-content-center align-items-center">
+            <div class="card card-stats w-100">
+                <div class="card-body d-flex flex-column align-items-center h-100">
+                    <div class="avatar bg-light-primary p-50 m-0 mb-1">
+                        <div class="avatar-content">
+                            <i class="font-medium-5" data-feather="dollar-sign"></i>
+                        </div>
+                    </div>
+                    <div *ngIf="loader" class="loader">
+                        <div class="spinner-border mr-50" role="status" style="width: 3rem; height: 3rem"></div>
+                    </div>
+                    <div class="card-text-container"><h2 class="font-weight-bolder  text-center">{{profits?.profitAfterDesignerCut }}</h2>
+                        <div class="mb-0 line-ellipsis text-truncate" data-toggle="tooltip" title="Butler's Profit">
+                            <div class="text-container text-center">
+                                <span class="dashboard-card-text font-weight-bold">Butler's Profit</span>
+                                <span class="dashboard-card-text small">After Designer Cut</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-6 d-flex justify-content-center align-items-center">
+            <div class="card card-stats w-100">
+                <div class="card-body d-flex flex-column align-items-center h-100" > <div class="avatar bg-light-primary p-50 m-0 mb-1">
+                    <div class="avatar-content">
+                        <i class="font-medium-5" data-feather="dollar-sign"></i>
+                    </div>
+                </div>
+                    <div *ngIf="loader" class="loader">
+                        <div class="spinner-border mr-50" role="status" style="width: 3rem; height: 3rem"></div>
+                    </div>
+                    <div class="card-text-container">
+                        <h2 class="font-weight-bolder text-center">{{profits?.designersEarnings }}</h2>
+                        <div class="mb-0 line-ellipsis text-truncate" data-toggle="tooltip" title="Designer's Earnings">
+                            <div class="text-container text-center">
+                                <span class="dashboard-card-text font-weight-bold">Designer's Earnings</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,116 @@
+@import '@core/scss/base/pages/app-chat.scss';
+@import '@core/scss/base/pages/app-chat-list.scss';
+@import '@core/scss/base/components/include'; // Components includes
+
+// Chat Application
+.chat-application {
+  .chat-sidebar,
+  .sidebar-content,
+  .chat-user-sidebar,
+  .active-user-profile-sidebar,
+  .chat-sidebar-wrapper {
+    height: 100%;
+  }
+
+  .chat-sidebar {
+    border-right: 1px solid $border-color;
+  }
+
+  .sidebar-content {
+    min-width: auto;
+  }
+
+  .chat-profile-sidebar {
+    top: 0;
+    left: 0;
+  }
+
+  .sidebar {
+    position: unset;
+  }
+}
+
+// Dark Layout
+.dark-layout {
+  .chat-application {
+    .chat-sidebar {
+      background-color: $theme-dark-card-bg !important;
+      border-right: 1px solid $theme-dark-border-color;
+    }
+  }
+}
+
+.initials-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
+  /* Add any additional styles as needed */
+}
+
+.initials-avatar-user {
+  background-color: #283046;
+}
+
+.initials-avatar-admin {
+  background-color: #171d31;
+}
+
+.photo-card {
+  border: solid !important;
+  border-radius: 10%;
+  display: inline-block;
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.m-2pc {
+  margin: 2%;
+}
+
+.date-divider {
+  text-align: center !important;
+}
+
+.load-bottom {
+  height: 32px !important;
+  width: 32px !important;
+  float: right;
+}
+
+.system-msgs {
+  text-align: center;
+  font-size: medium;
+  color: black;
+  background-color: $theme-dark-card-bg;
+}
+
+audio::-webkit-media-controls-panel {
+  background-color: #56AEFF;
+}
+
+audio::-webkit-media-controls-timeline {
+  background-color: #B1D4E0;
+  border-radius: 25px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.trash-can {
+  width: 25px;
+  height: 25px;
+  color: red;
+}
+
+.pause-icon {
+  width: 25px;
+  height: 25px;
+}

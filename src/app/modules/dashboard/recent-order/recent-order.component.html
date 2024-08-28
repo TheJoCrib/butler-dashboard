@@ -1,0 +1,61 @@
+<div class="card card-company-table">
+    <div class="card-body p-0">
+        <div class="card-header">
+            <h4 class="card-title">Recent Jobs (10)</h4>
+        </div>
+        <div *ngIf="loader" class="loader">
+            <div class="spinner-border mr-50" style="width: 3rem; height: 3rem" role="status">
+            </div>
+        </div>
+        <div *ngIf="!loader" class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Client</th>
+                        <th>Category</th>
+                        <th>Designer</th>
+                        <th>Price</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr *ngFor="let order of recentOrder">
+                        <td>
+                            <div class="d-flex align-items-center">
+
+                                <div>
+                                    <div class="font-weight-bolder">{{order?.client.name}}</div>
+                                    <div class="font-small-2 text-muted">{{order?.client.email}}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                
+                                <span>{{order?.category.name}}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                
+                                <span>{{order?.assignedTo?.name ? order.assignedTo.name : 'N/A'}}</span>
+                            </div>
+                        </td>
+                        
+                        <td>{{order?.price}}$</td>
+                       
+                        <td> {{order?.createdAt | date : 'dd MMM yyyy'}}</td>
+                        <td>{{order?.status}}</td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <!-- <div class="loader" *ngIf="loader">
+                <div class="spinner-border mr-50" style="width: 3rem; height: 3rem" role="status">
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>

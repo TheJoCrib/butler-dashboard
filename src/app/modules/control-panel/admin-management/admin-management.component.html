@@ -1,0 +1,356 @@
+<div class="content-wrapper container-xxl p-0">
+  <div *ngIf="!showAddUpdateAdminDiv" class="content-body">
+    <app-content-header [contentHeader]="contentHeader"></app-content-header>
+    <div class="row">
+      <div class="col-md-6 col-12 mb-50">
+        <div class="d-flex justify-content-between align-items-center">
+          <label class="d-flex align-items-center"
+            >Show
+            <select
+              class="form-control mx-25"
+              (change)="handleLimit()"
+              [(ngModel)]="pageSize"
+            >
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+            </select>
+            records</label
+          >
+        </div>
+      </div>
+      <div class="col-md-6 col-12 d-flex justify-content-md-end mb-50">
+        <div class="row">
+          <div
+            class="col-md-{{
+              checkPermission(confPerm.CREATE_ADMIN) ? '6' : '8'
+            }} col-12 d-flex justify-content-md-end"
+          >
+            <div
+              class="d-flex align-items-center justify-content-end pr-1 pb-1 pl-1 pl-md-0 pb-md-0"
+            >
+              <label class="d-flex align-items-center"
+                >Search<input
+                  type="search"
+                  placeholder="Search..."
+                  class="form-control ml-25"
+                  (keyup)="filterUpdate($event)"
+                  (search)="filterUpdate($event)"
+              /></label>
+            </div>
+          </div>
+          <div
+            *ngIf="checkPermission(confPerm.CREATE_ADMIN)"
+            class="col-md-6 col-12"
+          >
+            <button
+              (click)="addNewAdmin()"
+              class="btn btn-primary ml-1"
+              rippleEffect
+            >
+              <i data-feather="plus" class="mr-0 mr-sm-1"></i
+              ><span class="d-none d-sm-inline-block">Add New Admin</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <section *ngIf="!loading" id="ngx-datatable-row-details">
+      <ngx-datatable
+        #tableRowDetails
+        class="bootstrap core-bootstrap"
+        [columnMode]="ColumnMode.force"
+        [headerHeight]="40"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [rows]="admins"
+        [limit]="pageSize"
+        [scrollbarH]="true"
+        [externalPaging]="true"
+        [count]="totalAdmins"
+        [offset]="offset"
+        (page)="setPage($event)"
+      >
+        <ngx-datatable-column name="Email" [width]="210">
+          <ng-template ngx-datatable-cell-template let-row="row">
+            <div class="d-flex align-items-center clickable">
+              {{ row?.email }}
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Name" [width]="150">
+          <ng-template ngx-datatable-cell-template let-row="row">
+            <div class="d-flex align-items-center clickable">
+              {{ row?.fullName }}
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Role" [width]="150">
+          <ng-template ngx-datatable-cell-template let-row="row">
+            <div class="d-flex align-items-center clickable">
+              {{ row?.role?.title }}
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Status" prop="status" [width]="70">
+          <ng-template ngx-datatable-cell-template let-row="row">
+            <div
+              *ngIf="row?.isBanned"
+              class="badge badge-pill badge-light-danger d-flex align-items-center"
+              container="body"
+              (click)="toggleAdminStatus(row)"
+              ngbTooltip="Click to Activate"
+            >
+              Inactive
+            </div>
+            <div
+              *ngIf="!row?.isBanned"
+              class="badge badge-pill badge-light-success d-flex align-items-center"
+              container="body"
+              (click)="toggleAdminStatus(row)"
+              ngbTooltip="Click to Deactivate"
+            >
+              Active
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column
+          *ngIf="checkPermission(confPerm.UPDATE_ADMIN)"
+          name="Actions"
+          [width]="140"
+          [sortable]="false"
+        >
+          <ng-template ngx-datatable-cell-template let-row="row">
+            <div class="d-flex align-items-center">
+              <div class="d-flex align-items-center">
+                <a (click)="deleteAdmin(row)">
+                  <i data-feather="trash" class="mr-0 mr-sm-1"></i
+                ></a>
+                <a (click)="editAdmin(row)"><i data-feather="edit-3"></i></a>
+              </div>
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </section>
+    <swal
+      #SweetAlertConfirmEnable
+      (open)="updateVehicleStatus('enable')"
+    ></swal>
+    <swal
+      #SweetAlertConfirmUnDisable
+      (open)="updateVehicleStatus('disable')"
+    ></swal>
+  </div>
+
+  <div *ngIf="showAddUpdateAdminDiv" class="content-body">
+    <app-content-header [contentHeader]="contentHeader"></app-content-header>
+    <div class="row">
+      <div class="col-md-6 col-12 mb-50"></div>
+      <div class="col-md-6 col-12 d-flex justify-content-md-end mb-50">
+        <button
+          (click)="showAddUpdateAdminDiv = !showAddUpdateAdminDiv"
+          class="btn btn-outline-secondary ml-1"
+          rippleEffect
+        >
+          <i data-feather="arrow-left" class="mr-0 mr-sm-1"></i
+          ><span class="d-none d-sm-inline-block"> Back To Listing</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3 col-1"></div>
+      <div class="col-md-6 col-12">
+        <section id="basic-horizontal-layouts" class="card">
+          <div class="row match-height">
+            <div class="col-md-12 col-12">
+              <h4 class="card-title padding-15">{{ cardTitle }}</h4>
+              <div class="card-body">
+                <form
+                  class="form form-horizontal"
+                  [formGroup]="AdminDetailsForm"
+                  (ngSubmit)="onSubmit()"
+                >
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="form-group row">
+                        <div class="col-sm-3 col-form-label">
+                          <label for="email">Email</label>
+                        </div>
+                        <div class="col-sm-9">
+                          <input
+                            [ngClass]="{
+                              'is-invalid error': submitted && f.email.errors
+                            }"
+                            formControlName="email"
+                            type="text"
+                            id="email"
+                            class="form-control"
+                            name="fname"
+                            placeholder="Enter admin email"
+                          />
+                          <div
+                            *ngIf="submitted && f.email.errors"
+                            class="invalid-feedback"
+                            [ngClass]="{
+                              'd-block': submitted && f.email.errors
+                            }"
+                          >
+                            <div *ngIf="f.email.errors.required">
+                              Email is required
+                            </div>
+                            <div *ngIf="f.email.errors.email">
+                              Email is invalid
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-group row">
+                        <div class="col-sm-3 col-form-label">
+                          <label for="fullName">Full Name</label>
+                        </div>
+                        <div class="col-sm-9">
+                          <input
+                            [ngClass]="{
+                              'is-invalid error': submitted && f.fullName.errors
+                            }"
+                            formControlName="fullName"
+                            type="text"
+                            id="fullName"
+                            class="form-control"
+                            placeholder="Enter admin name"
+                          />
+                          <div
+                            *ngIf="submitted && f.fullName.errors"
+                            class="invalid-feedback"
+                            [ngClass]="{
+                              'd-block': submitted && f.fullName.errors
+                            }"
+                          >
+                            <div *ngIf="f.fullName.errors.required">
+                              Full name is required
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-group row">
+                        <div class="col-sm-3 col-form-label">
+                          <label for="password">Password</label>
+                        </div>
+                        <div class="col-sm-9">
+                          <input
+                            [ngClass]="{
+                              'is-invalid error': submitted && f.password.errors
+                            }"
+                            formControlName="password"
+                            type="text"
+                            id="password"
+                            class="form-control"
+                            name="fname"
+                            placeholder="Enter password"
+                          />
+                          <div
+                            *ngIf="submitted && f.password.errors"
+                            class="invalid-feedback"
+                            [ngClass]="{
+                              'd-block': submitted && f.password.errors
+                            }"
+                          >
+                            <div *ngIf="f.password.errors.required">
+                              Password is required
+                            </div>
+                            <p
+                              class="card-text mb-2"
+                              [ngClass]="{
+                                'is-invalid error':
+                                  submitted && f.password.errors
+                              }"
+                            >
+                              Must contain 8 digits. One
+                              uppercase letter and one special character.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-group row">
+                        <div class="col-sm-3 col-form-label">
+                          <label for="adminRole">Role</label>
+                        </div>
+                        <div class="col-sm-9">
+                          <ng-multiselect-dropdown
+                            [placeholder]="'select role'"
+                            [settings]="dropdownSettings"
+                            [data]="roles"
+                            (onFilterChange)="onSearch($event)"
+                            formControlName="roleId"
+                          >
+                          </ng-multiselect-dropdown>
+                          <div
+                            *ngIf="submitted && f.roleId.errors"
+                            class="invalid-feedback"
+                            [ngClass]="{
+                              'd-block': submitted && f.roleId.errors
+                            }"
+                          >
+                            <div *ngIf="f.roleId.errors.required">
+                              Role is required
+                            </div>
+                          </div>
+                          <!-- <select
+                            [ngClass]="{
+                              'is-invalid error': submitted && f.role_id.errors
+                            }"
+                            formControlName="role_id"
+                            placeholder=""
+                            
+                            id="adminRole"
+                          >
+                            <option value="1">Admin</option>
+                            <option value="2">Manager</option>
+                            <option value="3">Viewer</option>
+                          </select> -->
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-9 offset-sm-3">
+                      <button
+                        [disabled]="loader"
+                        type="submit"
+                        rippleEffect
+                        class="btn btn-primary mr-1"
+                      >
+                        <span
+                          *ngIf="loader"
+                          class="spinner-border spinner-border-sm"
+                        ></span>
+                        {{ buttonText }}
+                      </button>
+                      <button
+                        (click)="showAddUpdateAdminDiv = !showAddUpdateAdminDiv"
+                        type="reset"
+                        rippleEffect
+                        class="btn btn-outline-secondary"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="col-md-3 col-1"></div>
+    </div>
+  </div>
+</div>

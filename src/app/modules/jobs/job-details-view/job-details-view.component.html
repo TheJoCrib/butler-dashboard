@@ -1,0 +1,391 @@
+<div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+        <app-content-header [contentHeader]="contentHeader"></app-content-header>
+        <!-- <div class="mb-35-px"></div> -->
+        <section class="vertical-wizard">
+            <div id="stepper2" class="bs-stepper vertical vertical-wizard-example">
+                <div class="bs-stepper-header pl">
+                    <div class="step" data-target="#address-step-vertical">
+                        <button type="button" class="step-trigger">
+                            <span class="bs-stepper-box">1</span>
+                            <span class="bs-stepper-label">
+                <span class="bs-stepper-title">Job Details</span>
+              </span>
+                        </button>
+                    </div>
+                    <div class="step" data-target="#social-links-vertical">
+                        <button type="button" class="step-trigger">
+                            <span class="bs-stepper-box">2</span>
+                            <span class="bs-stepper-label">
+                <span class="bs-stepper-title">Attachments</span>
+                <span class="bs-stepper-subtitle">Attachments</span>
+              </span>
+                        </button>
+                    </div>
+                    <div class="step" data-target="#invoices">
+                        <button type="button" class="step-trigger">
+                            <span class="bs-stepper-box">3</span>
+                            <span class="bs-stepper-label">
+                <span class="bs-stepper-title">Invoices</span>
+              </span>
+                        </button>
+                    </div>
+                    <div class="close-btn">
+                        <button
+                                routerLink="/admin/jobs/"
+                                class="btn btn-outline-danger mr-1"
+                                rippleEffect
+                        >
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bs-stepper-content container-height">
+                    <form [formGroup]="editJobForm" (ngSubmit)="onSubmit()">
+                        <div id="address-step-vertical" class="content">
+
+
+                            <div class="row">
+                                <div class="content-header form-group col-md-4">
+                                    <h5 class="mb-0">Job Details</h5>
+                                </div>
+                                <div class="col-md-4 ">
+                                    <!-- <div (click)="openChat(job?.freelancerRoomId)" class="btn btn-outline-success" >
+                                     <i data-feather="message-square" ></i> {{selectedFreelancer[0]?.name}}
+                                    </div> -->
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="form-label" for="vertical-address">Title</label>
+                                    <input
+                                            type="text"
+                                            id="vertical-address"
+                                            class="form-control"
+                                            placeholder="Enter job title"
+                                            formControlName="title"
+                                            name="title"
+                                    />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="form-label" for="vertical-landmark"
+                                    >Deadline</label
+                                    >
+                                    <input
+                                            type="date"
+                                            [min]="todayDate"
+                                            id="vertical-landmark"
+                                            class="form-control"
+                                            formControlName="endDate"
+                                            name="endDate"
+                                    />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="form-label" for="vertical-landmark"
+                                    >Price</label
+                                    >
+                                    <div class="input-group">
+                                        <input
+                                                type="text"
+                                                placeholder="Enter expected cost"
+                                                id="vertical-landmark"
+                                                class="form-control"
+                                                formControlName="price"
+                                                name="price"
+                                        />
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">$</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="form-label" for="vertical-address"
+                                    >Category</label
+                                    >
+                                    <ng-select
+                                            [items]="categories"
+                                            [disabled]="true"
+                                            [multiple]="false"
+                                            bindLabel="name"
+                                            groupBy="path"
+                                            [closeOnSelect]="false"
+                                            bindValue="name"
+                                            (change)="changeCat()"
+                                            [ngModelOptions]="{ standalone: true }"
+                                            [(ngModel)]="selectedCategory">
+                                        <ng-template ng-optgroup-tmp let-item="item" let-item$="item$"
+                                                     let-index="index">
+                                            {{item.path | uppercase}}
+                                        </ng-template>
+                                        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                            <input id="item-{{index}}" [ngModelOptions]="{ standalone: true }"
+                                                   type="checkbox" [ngModel]="item$.selected"/> {{item.name}}
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="form-label" for="vertical-address"
+                                    >Assigned To</label
+                                    >
+                                    <ng-multiselect-dropdown
+                                            [placeholder]="'select Designer'"
+                                            [settings]="dropdownFreelancerSettings"
+                                            [data]="freelancers"
+                                            [ngModelOptions]="{ standalone: true }"
+                                            (onFilterChange)="onSearchFreelancers($event)"
+                                            [(ngModel)]="selectedFreelancer"
+                                    >
+                                    </ng-multiselect-dropdown>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="form-label" for="vertical-landmark"
+                                    >Client</label
+                                    >
+                                    <ng-multiselect-dropdown
+                                            [placeholder]="'select client'"
+                                            [settings]="dropdownSettings"
+                                            [data]="clients"
+                                            [disabled]="true"
+                                            [ngModelOptions]="{ standalone: true }"
+                                            (onFilterChange)="onSearchClients($event)"
+                                            [(ngModel)]="selectedClient"
+                                    >
+                                    </ng-multiselect-dropdown>
+                                </div>
+                                <div class="form-group col-md-4"></div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="form-label" for="vertical-address"
+                                    >Status</label
+                                    >
+                                    <ng-multiselect-dropdown
+                                            [placeholder]="'select job status'"
+                                            [settings]="dropdownSettings"
+                                            [data]="statusList"
+                                            [ngModelOptions]="{ standalone: true }"
+                                            [(ngModel)]="selectedStat"
+                                    >
+                                    </ng-multiselect-dropdown>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-10">
+                                    <label class="form-label" for="vertical-landmark"
+                                    >Description</label>
+                                    <div formArrayName="details" class="description-container-edit-job">
+                                        <div *ngFor="let detail of details.controls; let i = index"
+                                             class="description-row">
+                                            <div [formGroupName]="i" class="description-group">
+                                                <input type="text" class="form-control w-75"
+                                                       placeholder="Enter description {{i+1}}"
+                                                       formControlName="description" id="description_{{i}}">
+                                                <div class="icon-buttons">
+                                                    <a class="ml-2 mb4"
+                                                       [hidden]=" details.controls.length === 1"
+                                                       (click)="removeDetail(i)"><i class="ficon icon-btn-thrash"
+                                                                                    data-feather="trash"></i></a>
+                                                    <a class="ml-2 mb4" (click)="addDetail(i)"><i data-feather="plus"
+                                                                                                  class="cursor-pointer icon-btn-plus"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-end">
+                                <a>
+                                    <div class="step" data-target="#social-links-vertical">
+                                        <button
+                                                type="button"
+                                                class="btn btn-outline-secondary btn-prev next-btn step-trigger btn-view-section"
+                                                rippleEffect
+                                        >
+                                            <span class="align-middle d-sm-inline-block">Next</span>
+                                            <i
+                                                    data-feather="arrow-right"
+                                                    class="align-middle mr-sm-25 mr-0"
+                                            ></i>
+                                        </button>
+                                    </div>
+                                </a>
+                                <div></div>
+                            </div>
+                        </div>
+
+                        <div id="social-links-vertical" class="content">
+                            <div class="content-header">
+                                <h5 class="mb-0">Attachments</h5>
+                            </div>
+                            <div class="row">
+                                <div *ngFor="let file of selectedFiles">
+                                    <div class="card m-10">
+                                        <div class="card-body">
+                                            <h5>
+                                                {{ file.name }}
+                                                <a (click)="handleFileRemove(file)">
+                                                    <i data-feather="trash" class="mr-0 mr-sm-1"></i>
+                                                </a>
+                                            </h5>
+
+                                            <img
+                                                    src="{{ getThumbnail(file) }}"
+                                                    width="70"
+                                                    height="55"
+                                            />
+                                            <a href="{{file.location}}" target="_blank">preview</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <input
+                                        #fileInput
+                                        id="attachments"
+                                        type="file"
+                                        class="form-control"
+                                        (change)="onChangeAttachment($event)"
+                                    />
+                                </div>
+                                <div class="form-group col-md-4"></div>
+                                <div class="form-group col-md-2"></div>
+                            </div>
+
+                            <div class="d-flex justify-content-end">
+                                <div>
+                                    <button class="btn btn-outline-success mr-1" rippleEffect>
+                                        Update
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="invoices" class="content">
+                            <div class="content-header">
+                                <h5 class="mb-0">Invoices</h5>
+                            </div>
+                            <section id="ngx-datatable-row-details">
+                                <ngx-datatable
+                                    #tableRowDetails
+                                    class="bootstrap core-bootstrap"
+                                    [columnMode]="ColumnMode.force"
+                                    [headerHeight]="40"
+                                    [footerHeight]="50"
+                                    [rowHeight]="'auto'"
+                                    [limit]="pageSize"
+                                    [rows]="invoices"
+                                    [scrollbarH]="true"
+                                    [externalPaging]="true"
+                                    [count]="totalInvoices"
+                                    [offset]="offset"
+                                    (page)="setPage($event, 'invoices')"
+                                >
+                                    <ngx-datatable-column
+                                            name="Customer"
+                                            prop="customer"
+                                            [width]="150"
+                                    >
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            <div class="d-flex align-items-center">
+                                                <div>
+                                                    <div class="font-weight-bolder">
+                                                        {{ row?.consumer[0].fullName }}
+                                                    </div>
+                                                    <div class="font-small-2 text-muted">
+                                                        {{ row?.consumer[0].email }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column
+                                            name="Amount Payable"
+                                            prop="amountPayable"
+                                            [width]="150"
+                                    >
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            <div class="d-flex align-items-center">
+                                                <div>
+                                                    <div class="font-weight-bolder">
+                                                        {{ row?.amountPayable }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column
+                                            name="Invoice date"
+                                            prop="drop_off_loc"
+                                            [width]="100"
+                                    >
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            <div class="d-flex align-items-center">
+                                                <div>
+                                                    <div class="font-weight-bolder">
+                                                        {{ row?.invoiceDate | date: "dd MMM yyyy" }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column
+                                            name="Due Date"
+                                            prop="drop_off_loc"
+                                            [width]="100"
+                                    >
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            <div class="d-flex align-items-center">
+                                                <div>
+                                                    <div class="font-weight-bolder">
+                                                        {{ row?.dueDate | date: "dd MMM yyyy" }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column name="Status" prop="status" [width]="150">
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            <div class="d-flex align-items-center">
+                                                <div>
+                                                    <div class="font-weight-bolder">
+
+                                                        {{ row?.status  }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column name="Actions" [width]="75">
+                                        <ng-template ngx-datatable-cell-template let-row="row">
+                                            <div class="d-flex align-items-center">
+                                                <a (click)="viewInvoice(row._id)">
+                                                    <i data-feather="eye" class="mr-0 mr-sm-1"></i>
+                                                </a>
+                                            </div>
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                </ngx-datatable>
+                                <div *ngIf="loader" class="loader-div">
+                                    <div class="loading-spinner">
+                                        <div class="loader">
+                                            <div class="spinner-border mr-50" role="status"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

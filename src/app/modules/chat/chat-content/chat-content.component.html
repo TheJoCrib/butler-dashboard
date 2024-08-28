@@ -1,0 +1,252 @@
+<div class="body-content-overlay"></div>
+<!-- Main chat area -->
+<section class="chat-app-window">
+    <!-- To load Conversation -->
+    <div class="start-chat-area" [ngClass]="{ 'd-none': activeChat === true }">
+        <div class="mb-1 start-chat-icon">
+            <i data-feather="message-square"></i>
+        </div>
+        <h4
+                class="sidebar-toggle start-chat-text"
+                (click)="toggleSidebar('chat-sidebar')"
+        >
+            Start Conversation
+        </h4>
+    </div>
+    <!--/ To load Conversation -->
+
+    <!-- Active Chat -->
+    <div
+            class="active-chat"
+            [ngClass]="{ 'd-none': activeChat !== true }"
+            *ngIf="activeChat === true"
+    >
+        <!-- Chat Header -->
+        <div class="chat-navbar">
+            <header class="chat-header">
+                <div class="d-flex align-items-center" *ngIf="chatMessages && chatMessages.length > 0">
+                    <button
+                            class="btn sidebar-toggle d-block d-lg-none mr-1 p-0"
+                            (click)="toggleSidebar('chat-sidebar')"
+                    >
+                        <i data-feather="menu" class="font-medium-5"></i>
+                    </button>
+
+                    <button *ngIf="selectedTopMenu !== 'staff'"
+                            class="btn btn-danger"
+                            (click)="endChat()"
+                    >
+                        End Chat
+                    </button>
+                </div>
+                <div class="d-flex align-items-center" *ngIf="chatMessages && chatMessages.length > 0">
+                    <div class="content-header"
+                         *ngIf="roomType == 'client'"
+                    >
+                        <div *ngIf="selectedChat?.invoiceExists" (click)="sendInvoice()" class="btn btn-success">
+                            <i data-feather="invoice"></i> Send Invoice
+                        </div>
+                        <div *ngIf="!selectedChat?.invoiceExists" class="btn btn-success"
+                             routerLink="/admin/invoices"
+                             [queryParams]="{ param: chatUser._id }"
+                        >
+                            <i data-feather="invoice"></i> Create Invoice
+                        </div>
+                    </div>
+                    <button
+                            *ngIf="roomType == 'openchat'"
+                            routerLink="/admin/jobs/create"
+                            [queryParams]="{ param: chatUser._id }"
+                            class="btn btn-primary"
+                    >
+                        Create Job
+                    </button>
+
+                </div>
+            </header>
+        </div>
+        <!--/ Chat Header -->
+
+        <!-- User Chat messages -->
+        <div
+                class="user-chats"
+                [perfectScrollbar]
+                #scrollMe
+                (scroll)="handleScroll($event)"
+        >
+
+
+            <div class="chats" *ngIf="showContent">
+
+                <div
+                        class="{{ selectedTopMenu === 'staff'? chatRef.sender !== chatUser?._id ? 'chat-left' : 'chat-right' :
+                         chatRef.sender === chatUser?._id ? 'chat-left' : 'chat-right'}}"
+                        *ngFor="let chatRef of chatMessages"
+                >
+                    <div *ngIf="isDivider(chatRef.sentAt)" class="date-divider">
+                        {{ chatRef.sentAt | date: "dd MMMM yyyy" }}
+                    </div>
+                    <div *ngIf="chatRef.attachment?.t === 'system'" class="system-msgs">
+                        <a [routerLink]="'/invoices/details-view/' + chatRef.attachment.miscData.invoiceId"
+                           (click)="routeToInvoice(chatRef.attachment.miscData.invoiceId)">
+                            {{chatRef.body}}
+                        </a>
+
+
+                    </div>
+                    <div *ngIf="chatRef.attachment?.t != 'system'" class="chat-avatar">
+            <span class="avatar box-shadow-1 cursor-pointer">
+
+                <span class="initials-avatar initials-avatar-user"
+                      *ngIf="chatRef?.sender === chatUser?._id; else alternateAvatar">{{initialHandler(chatUser?.fullName)}}</span>
+              <ng-template #alternateAvatar>
+                <img
+                        *ngIf="!admin?.profileImage"
+                        src="assets/admin-avatar.png "
+                        alt="user_avatar"
+                        height="36"
+                        width="36"
+                />
+                <img
+                        *ngIf="admin?.profileImage"
+                        [src]="admin?.profileImage"
+                        alt="avatar"
+                        height="36"
+                        width="36"
+                />
+              </ng-template>
+            </span>
+                    </div>
+                    <div *ngIf="chatRef.attachment?.t != 'system'" class="chat-body">
+                        <div class="chat-content">
+                            <div *ngIf="chatRef.attachment">
+                                <img
+                                        *ngIf="chatRef.attachment.t == 'image'"
+                                        src="{{ chatRef.attachment.image }}"
+                                        class="img-thumbnail"
+                                        alt="attachment"
+                                />
+                                <video
+                                        *ngIf="chatRef.attachment.t == 'video'"
+                                        width="320"
+                                        height="240"
+                                        controls
+                                >
+                                    <source
+                                            src="{{ chatRef.attachment.video }}"
+                                            type="video/{{ getEx(chatRef.attachment.video) }}"
+                                    />
+                                    Your browser does not support the video tag.
+                                </video>
+                                <audio *ngIf="chatRef.attachment.t == 'audio'" controls>
+                                    <source src="{{ chatRef.attachment.audio}}" type="audio/mp3"/>
+                                </audio>
+
+                                <a
+                                        *ngIf="chatRef.attachment.t == 'file'"
+                                        style="color: white"
+                                        href="{{ c }}"
+                                        target="_blank"
+                                >
+                                    {{ extractFileName(chatRef.attachment.file) }}
+                                    <img
+                                            *ngIf="chatRef.attachment.t == 'file'"
+                                            width="32"
+                                            height="32"
+                                            src="{{ getThumbnail(getEx(chatRef.attachment.file)) }}"
+                                    /></a>
+                            </div>
+                            <p>{{ chatRef.body }}</p>
+                            <small>{{ chatRef.sentAt | date: "hh:mm" }}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- User Chat messages -->
+        <!-- Submit Chat form -->
+
+        <form class="chat-app-form" action="javascript:void(0);" *ngIf="activeChat === true">
+            <div class="input-group input-group-merge mr-1 form-send-message">
+                <div class="input-group-prepend">
+          <span
+                  class="input-group{{isAudioRecording ? '' : '-text'}}"
+                  (click)="toggleRecording()"
+          >
+            <div
+                    (click)="startAudioRecording()"
+                    *ngIf="!isAudioRecording && !audioBlobUrl"
+            >
+              <i data-feather="mic" class="cursor-pointer"></i>
+            </div>
+            <div
+                    (click)="stopAudioRecording()"
+                    *ngIf="isAudioRecording && !audioBlobUrl"
+            >
+              <i data-feather="pause" class="pause-icon"></i>
+            </div>
+
+            <div id="audioTimer" *ngIf="isAudioRecording && !audioBlobUrl">
+              {{ audioRecordedTime }}
+            </div>
+            <audio *ngIf="!isAudioRecording && audioBlobUrl" controls>
+              <source [src]="audioBlobUrl" type="audio/mp3"/>
+            </audio>
+            <div
+                    (click)="clearAudioRecordedData()"
+                    *ngIf="!isAudioRecording && audioBlobUrl"
+            >
+              <i data-feather="trash" class="trash-can"></i>
+            </div>
+          </span>
+                </div>
+                <input
+                        type="text"
+                        *ngIf="!isAudioRecording && !audioBlob"
+                        class="form-control message"
+                        placeholder="Type your message"
+                        [(ngModel)]="chatMessage"
+                        name="chat-message"
+                        (focus)="typing()"
+                        (keydown.enter)="updateChat()"
+                />
+                <div *ngIf="!isAudioRecording && !audioBlob" class="input-group-append">
+          <span class="input-group-text">
+            <label for="attach-doc" class="attachment-icon mb-0">
+              <i
+                      data-feather="image"
+                      class="cursor-pointer lighten-2 text-secondary"
+              ></i>
+              <input
+                      type="file"
+                      (change)="handleFileChange($event)"
+                      #fileInput
+                      id="attach-doc"
+                      hidden
+              /> </label
+            ></span>
+                </div>
+            </div>
+            <button
+                    type="button"
+                    class="btn btn-primary send"
+                    (click)="updateChat()"
+                    rippleEffect
+            >
+                <i data-feather="send" class="d-lg-none"></i>
+                <span class="d-none d-lg-block">Send</span>
+            </button>
+
+            <div *ngIf="imgURL" class="photo-card">
+                <img [src]="imgURL" height="75" width="75"/>
+                <a (click)="deleteFile()"
+                ><i class="close" data-feather="x-circle"></i
+                ></a>
+            </div>
+        </form>
+        <!--/ Submit Chat form -->
+    </div>
+    <!--/ Active Chat -->
+</section>
+
+<!--/ Main chat area -->

@@ -1,0 +1,180 @@
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <app-content-header [contentHeader]="contentHeader"></app-content-header>
+    <div class="row">
+      <div class="col-md-6 col-12">
+        <div class="d-flex justify-content-between align-items-center m-1">
+          <label class="d-flex align-items-center">
+            Show
+            <select
+              class="form-control mx-25"
+              (change)="handlePageLimit()"
+              [(ngModel)]="pageSize"
+            >
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+            </select>
+            records
+          </label>
+        </div>
+      </div>
+      <div class="col-md-6 col-12 d-flex justify-content-end">
+        <div
+          class="d-flex align-items-center justify-content-end pr-1 pb-1 pl-1 pl-md-0 pb-md-0"
+        >
+          <label class="d-flex align-items-center width-360px">
+            Search<input
+              type="search"
+              placeholder="Search by name or phone number"
+              class="form-control ml-25"
+              [formControl]="searchBoxValue"
+              (keydown.enter)="searchClient()"
+            />
+          </label>
+          <button
+            type="button"
+            class="btn btn-outline-secondary btn-sm ml-25 search-btn"
+            (click)="searchClient()"
+            rippleEffect
+          >
+            search
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!--for testing purpose-->
+    <!-- <div>
+      <button
+        type="button"
+        class="btn btn-outline-secondary btn-sm"
+        
+        rippleEffect
+      >
+        View Details
+      </button>
+    </div> -->
+
+    <section id="ngx-datatable-row-details">
+      <ngx-datatable
+        #tableRowDetails
+        class="bootstrap core-bootstrap"
+        [columnMode]="ColumnMode.force"
+        [columns]="columns"
+        [headerHeight]="40"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [limit]="pageSize"
+        [rows]="clients"
+        [scrollbarH]="true"
+        [externalPaging]="true"
+        [count]="totalClient"
+        [offset]="offset"
+        (page)="setPage($event)"
+      >
+        <ngx-datatable-column name="Full Name" prop="fullName" [width]="150"
+          ><ng-template ngx-datatable-cell-template let-row="row">
+            <div>
+              {{ row.fullName ? row.fullName : "N/A" }}
+              <a *ngIf="row.online">
+                <i
+                  data-feather="circle"
+                  class="mr-0 avatar-status-online mr-sm-1 color-green"
+                ></i>
+              </a>
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column
+          name="Email"
+          prop="email"
+          [width]="150"
+        ></ngx-datatable-column>
+        <ngx-datatable-column
+          name="Phone"
+          prop="phone"
+          [width]="180"
+        ></ngx-datatable-column>
+        <ngx-datatable-column name="Joined" prop="createdAt" [width]="120">
+          <ng-template let-created_at="value" ngx-datatable-cell-template>
+            {{ created_at | date: "dd MMM yyyy" }}
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Actions" [width]="160" [sortable]="false">
+          <ng-template ngx-datatable-cell-template let-row="row">
+            <div class="d-flex align-items-center">
+              <button
+                      type="button"
+                      class="btn btn-outline-secondary btn-sm"
+                      (click)="toggleDetailsView(row)"
+                      rippleEffect
+              >
+                View Details
+              </button>
+              <div
+                *ngIf="row?.isBanned"
+                class="badge badge-pill badge-light-danger cusor-p d-flex align-items-center"
+                container="body"
+                (click)="toggleStatus(row)"
+                ngbTooltip="Click to Activate Client Profile"
+              >
+                Unban
+              </div>
+              <div
+                *ngIf="!row?.isBanned"
+                class="badge badge-pill badge-light-success d-flex cusor-p align-items-center"
+                container="body"
+                (click)="toggleStatus(row)"
+                ngbTooltip="Click to Deactivate Client Profile"
+              >
+                Ban
+              </div>
+
+              <!-- 
+              <div *ngIf="!row?.isProfileVerified"
+                class="badge badge-pill badge-light-danger cusor-p d-flex align-items-center" container="body"
+                (click)="toggleProfile(row)" ngbTooltip="Click to Verify the profile">
+                Disproved
+              </div>
+              <div *ngIf="row?.isProfileVerified"
+                class="badge badge-pill badge-light-success d-flex cusor-p align-items-center" container="body"
+                (click)="toggleProfile(row)" ngbTooltip="Click to Disprove the profile">
+                Verified
+              </div> -->
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+
+      <div *ngIf="loading" class="loader">
+        <div
+          class="spinner-border mr-50"
+          style="width: 3rem; height: 3rem"
+          role="status"
+        ></div>
+      </div>
+      <div *ngIf="loader" class="loader-div">
+        <div class="loading-spinner">
+          <div class="loader">
+            <div class="spinner-border mr-50" role="status"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <swal
+      #SweetAlertConfirmBlock
+      (open)="updateFreelancerStatus('blocked', 'Block')"
+    ></swal>
+    <swal
+      #SweetAlertConfirmUnblock
+      (open)="updateFreelancerStatus('approved', 'Unblock')"
+    ></swal>
+    <swal
+      #SweetAlertConfirmDelete
+      (open)="updateFreelancerStatus('deleted', 'Delete')"
+    ></swal>
+  </div>
+</div>

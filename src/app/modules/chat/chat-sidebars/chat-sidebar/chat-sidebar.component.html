@@ -1,0 +1,180 @@
+<!-- Chat Sidebar area -->
+<div class="chat-sidebar bg-white">
+  <!-- <button
+    class="btn sidebar-close-icon"
+    (click)="toggleSidebar('chat-sidebar')"
+  >ss
+    <i data-feather="x"></i>
+  </button> -->
+
+  <div class="row px-2">
+<!--    <nav ngbNav #nav="ngbNav" class="nav-tabs">
+      <ng-container *ngFor="let t of tabsSupportList; let j = index" ngbNavItem>
+        <a  (click)="toggleSupport()"
+                ngbNavLink
+        >{{ t.label }}</a
+        >
+      </ng-container>
+    </nav>-->
+      <nav ngbNav #nav="ngbNav" class="nav nav-tabs">
+          <ng-container *ngFor="let t of tabList" ngbNavItem>
+              <a
+                      class="nav-link"
+                      [class.active]="selectedTopTab === t.value"
+                      (click)="topTabHandler(t.value)"
+              >
+                  {{ t.label }}
+              </a>
+          </ng-container>
+      </nav>
+  </div>
+  <!-- Sidebar header start -->
+  <div class="chat-fixed-search">
+    <div class="d-flex align-items-center w-100">
+      <div class="sidebar-profile-toggle">
+        <button
+          class="btn avatar avatar-border bg-transparent p-0"
+          (click)="toggleSidebar('chat-user-sidebar')"
+        >
+          <img
+            src="assets/admin-avatar.png "
+            alt="user_avatar"
+            height="42"
+            width="42"
+          />
+          <span
+            [ngClass]="{
+              'avatar-status-offline': userProfile?.status == 'offline',
+              'avatar-status-online': userProfile?.status == 'online',
+              'avatar-status-busy': userProfile?.status == 'busy',
+              'avatar-status-away': userProfile?.status == 'away'
+            }"
+          ></span>
+        </button>
+      </div>
+      <div class="input-group input-group-merge ml-1 w-100">
+        <div class="input-group-prepend">
+          <span class="input-group-text round"
+            ><i data-feather="search" class="text-muted"></i
+          ></span>
+        </div>
+        <input
+          type="text"
+          class="form-control round"
+          id="chat-search"
+          placeholder="Search or start a new chat"
+          aria-label="Search..."
+          aria-describedby="chat-search"
+          [(ngModel)]="searchText"
+        />
+        <a><i data-feather="support"></i></a>
+      </div>
+    </div>
+  </div>
+  <!-- Sidebar header end -->
+
+  <!-- Sidebar Users start -->
+  <div
+    id="users-list"
+    class="chat-user-list-wrapper list-group"
+    [perfectScrollbar]
+  >
+      <div class="row my-1  ml-1" *ngIf="selectedTopTab === 'staff'">
+          <div class="col ">
+              <div class="btn btn-success" (click)="createAdminChat()" >
+               Create Chat
+              </div>
+          </div>
+      </div>
+    <div class="row m-2pc">
+
+        <div *ngFor="let t of tabList; let j = index">
+            <div *ngIf="selectedTopTab === t.value">
+                <nav ngbNav #subNav="ngbNav" class="nav nav-tabs">
+                    <ng-container class="nav-item" *ngFor="let subtab of t.menu; let j = index" ngbNavItem>
+                        <a
+                                class="nav-link"
+                                (click)="fetchChatList(subtab.value); setTabIndex(j,subtab.value);"
+                                [class.active]="selectedTabIndex === j"
+                                ngbNavLink
+                        >
+                            {{ subtab.label }}
+                        </a>
+                    </ng-container>
+                </nav>
+            </div>
+        </div>
+
+
+
+    </div>
+    <ng-container
+      *ngIf="
+        (sidebarChats | filter: searchText:'fullName').length;
+        else noResultsChats
+      "
+    ></ng-container>
+    <ul class="chat-users-list chat-list media-list mb-3">
+      <li
+        *ngFor="
+          let chat of sidebarChats | filter: searchText:'fullName';
+          let i = index
+        "
+        [class.active]="selectedIndex === i"
+        (click)="openChat(chat._id);  toggleSidebar('chat-sidebar'); setIndex(i)"
+      >
+        <span class="avatar">
+          <img
+            *ngIf="!chat.user.participant.profileImage"
+            src="assets/admin-avatar.png "
+            height="42"
+            width="42"
+            alt="img"
+          />
+          <img
+            *ngIf="chat.user.participant.profileImage"
+            [src]="chat.user.participant.profileImage"
+            height="42"
+            width="42"
+            alt="img"
+          />
+          <span
+            class="{{
+              chat.online ? 'avatar-status-online' : 'avatar-status-offline'
+            }}"
+          ></span>
+        </span>
+        <div class="chat-info flex-grow-1">
+          <h5 class="mb-0">{{ selectedTopTab === 'staff'? chat.admins[0].participant.fullName :chat.user.participant.fullName }}</h5>
+          <h7 class="text text-truncate">
+            {{ chat.job?.title }}
+          </h7>
+          <p *ngIf="chat.lastMessage" class="card-text text-truncate">
+            {{ chat.lastMessage.body}}
+          </p>
+        </div>
+        <div class="chat-meta text-nowrap">
+          <small class="float-right mb-25 chat-time">4:14 PM</small>
+          <span
+            *ngIf="isLastRead(chat)"
+            class="float-right badge badge-danger badge-pill"
+            >{{ chat.lastMessage.body }}</span
+          >
+        </div>
+      </li>
+
+      <ng-template #noResultsChats>
+        <li
+          class="no-results"
+          [ngClass]="{
+            show: (sidebarChats | filter: searchText:'fullName').length <= 0
+          }"
+        >
+          <h6 class="mb-0">No Chats Found</h6>
+        </li>
+      </ng-template>
+    </ul>
+  </div>
+  <!-- Sidebar Users end -->
+</div>
+<!--/ Chat Sidebar area -->

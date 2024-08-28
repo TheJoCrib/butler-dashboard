@@ -1,0 +1,55 @@
+/* Style the select element */
+select#dropdown-requested-jobs {
+  width: 165px;
+  padding: 7px;
+  font-size: 14px;
+  outline: none !important;
+  border-radius: 5px;
+  background-color: #fff;
+  color: #333;
+  cursor: pointer;
+  appearance: none; /* Remove default arrow in some browsers */
+}
+
+/* Style the select options */
+select#dropdown-requested-jobs option {
+  font-size: 14px;
+  background-color: #fff;
+  color: #333;
+  padding: 15px !important;
+}
+
+/* Style the select on hover and focus */
+select#dropdown-requested-jobs:hover,
+select#dropdown-requested-jobs:focus {
+  border-color: #b4b7bd; /* Change border color on hover/focus */
+  box-shadow: 0 0 5px rgb(22, 29, 49); /* Add a subtle shadow */
+}
+
+/* Style the selected option */
+select#dropdown-requested-jobs option:checked {
+  background-color: #b4b7bd;
+  color: #fff;
+}
+
+select#dropdown-requested-jobs option:hover, select#dropdown-requested-jobs option:focus, {
+  background-color: #b4b7bd;
+  color: #fff;
+}
+
+/* Style the select arrow */
+select#dropdown-requested-jobs::-ms-expand {
+  display: none; /* Hide the arrow in IE */
+}
+
+/* Customize the arrow icon */
+select#dropdown-requested-jobs::after {
+  content: '\25BC'; /* Unicode character for down arrow */
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
+  background-color: #333;
+  color: #fff;
+  pointer-events: none;
+}

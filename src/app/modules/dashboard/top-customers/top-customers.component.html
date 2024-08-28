@@ -1,0 +1,35 @@
+<div class="card-body p-0">
+    <div class="card-header">
+        <h4 class="card-title">Top Customers</h4>
+    </div>
+    <div *ngIf="loader" class="loader">
+        <div class="spinner-border mr-50" style="width: 3rem; height: 3rem" role="status">
+        </div>
+    </div>
+    <div *ngIf="!loader" class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Orders</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr *ngFor="let customer of topCustomersData">
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div>
+                                <div class="font-weight-bolder">{{customer?.fullName ? customer.fullName : 'N/A' }}</div>
+                                <div class="font-small-2 text-muted">{{customer?.phone}}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td> {{customer?.createdAt | date : 'dd MMM yyyy'}}</td>
+                    <td>{{ customer?.jobs}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
